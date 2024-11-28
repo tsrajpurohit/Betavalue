@@ -128,7 +128,7 @@ if __name__ == "__main__":
     beta_data = []
     for stock in stocks:
         print(f"Processing stock: {stock}")
-        beta = calculate_beta(stock, index, period="1y")
+        beta = calculate_beta(stock, index, period="1ytd")
         if beta is not None:
             print(f"{stock}: {beta}")
             beta_data.append([stock, beta])  # Store the result in a list
