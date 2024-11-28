@@ -1,3 +1,4 @@
+import os
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
@@ -76,10 +77,13 @@ def calculate_beta(stock, index, period="1y"):
         return None
 
 if __name__ == "__main__":
-    # Absolute path for credentials JSON file
-    credentials_path = "C:/Users/user/Downloads/Compressed/1.unofficial/Credentials.json"  # Absolute path to the credentials file
-
-    # Read the credentials JSON from the absolute path
+    # Fetch credentials path from environment variable
+    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
+    
+    if not credentials_path:
+        raise ValueError("Credentials path not found. Please set the GOOGLE_SHEET_CREDENTIALS_PATH environment variable.")
+    
+    # Read the credentials JSON from the environment variable path
     try:
         with open(credentials_path, "r") as file:
             credentials_json = file.read()
@@ -119,11 +123,4 @@ if __name__ == "__main__":
         else:
             print(f"Skipping {stock} due to calculation error.")
         
-        # Add delay to avoid hitting API rate limits
-        time.sleep(1)  # Sleep for 1 second between requests
-
-    # Update Google Sheet with the beta data
-    if beta_data:
-        update_google_sheet(worksheet, beta_data)
-    else:
-        print("No beta data to upload.")
+        # Add delay to avoid hitt
