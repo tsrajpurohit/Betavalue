@@ -44,6 +44,7 @@ def save_to_csv(file_name, data):
         print(f"Error saving to CSV: {e}")
 
 # Function to calculate beta
+# Function to calculate beta
 def calculate_beta(stock, index, period="1y"):
     try:
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
@@ -59,10 +60,11 @@ def calculate_beta(stock, index, period="1y"):
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
         beta = covariance / variance
-        return beta
+        return float(beta)  # Ensure beta is a plain float
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
+
 
 if __name__ == "__main__":
     # Fetch credentials and Sheet ID from environment variables
