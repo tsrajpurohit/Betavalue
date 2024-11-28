@@ -1,39 +1,34 @@
-import os
-import json
-import time
-import gspread
 import yfinance as yf
 import numpy as np
-from google.oauth2.service_account import Credentials
 from nsepython import fnolist
-
+import gspread
+from google.oauth2.service_account import Credentials
+import json
+import time
+import os
 # Function to authenticate and get the Google Sheets client
-def authenticate_google_sheets():
-    credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string containing credentials
-    SHEET_ID = os.getenv('SHEET_ID', '1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY')  # Default sheet ID if not set
+def authenticate_google_sheets(credentials_json):
+    try:
+        credentials_info = json.loads(credentials_json)
+        credentials = Credentials.from_service_account_info(
+            credentials_info,
+            scopes=["https://www.googleapis.com/auth/spreadsheets"]
+        )
+        client = gspread.authorize(credentials)
+        return client
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
 
-    if not credentials_json:
-        raise ValueError("GOOGLE_SHEETS_CREDENTIALS environment variable is not set.")
-
-    # Authenticate using the JSON string from environment
-    credentials_info = json.loads(credentials_json)
-    credentials = Credentials.from_service_account_info(
-        credentials_info,
-        scopes=["https://www.googleapis.com/auth/spreadsheets"]
-    )
-
-    # Authorize and create a Google Sheets client
-    client = gspread.authorize(credentials)
-
-    return client, SHEET_ID
-
-# Function to create or get the worksheet
+# Function to create a new worksheet if it doesn't exist
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
+        # Try to get the worksheet by name
         try:
             worksheet = sheet.worksheet(worksheet_name)
             print(f"Worksheet '{worksheet_name}' already exists.")
         except gspread.exceptions.WorksheetNotFound:
+            # If the worksheet doesn't exist, create it
             worksheet = sheet.add_worksheet(title=worksheet_name, rows="100", cols="2")
             print(f"Worksheet '{worksheet_name}' created.")
         return worksheet
@@ -44,6 +39,7 @@ def create_or_get_worksheet(sheet, worksheet_name):
 # Function to update the Google Sheet with beta values
 def update_google_sheet(worksheet, data):
     try:
+        # Prepare the data in the format [["Stock", "Beta"], ...]
         values = [["Stock", "Beta"]] + data
         worksheet.clear()  # Clear the existing data
         worksheet.update("A1", values)  # Update the sheet starting at cell A1
@@ -70,23 +66,35 @@ def calculate_beta(stock, index, period="1y"):
         # Calculate beta
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
-
-        # Add small constant to avoid division by zero
-        beta = covariance / (variance + 1e-10)
+        beta = covariance / variance
         return beta
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
 
 if __name__ == "__main__":
-    # Fetch credentials and Sheet ID from environment variables
-    client, SHEET_ID = authenticate_google_sheets()
+    # Absolute path for credentials JSON file
+    credentials_path = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string  # Absolute path to the credentials file
 
-    # Open the sheet by ID
-    sheet = client.open_by_key(SHEET_ID)
+    # Read the credentials JSON from the absolute path
+    try:
+        with open(credentials_path, "r") as file:
+            credentials_json = file.read()
+    except FileNotFoundError:
+        raise ValueError(f"Credentials file not found at {credentials_path}")
+
+    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
+    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
+
+    # Authenticate with Google Sheets
+    client = authenticate_google_sheets(credentials_json)
+    if not client:
+        raise ValueError("Google Sheets authentication failed.")
+    
+    sheet = client.open_by_key(sheet_id)  # Open the sheet by ID
 
     # Name of the worksheet to be created or accessed
-    worksheet_name = "Beta Values"
+    worksheet_name = "Beta Values"  # Change this to whatever name you'd like
 
     # Create or get the worksheet
     worksheet = create_or_get_worksheet(sheet, worksheet_name)
@@ -95,9 +103,7 @@ if __name__ == "__main__":
 
     # Fetch all F&O stock symbols
     stocks = fnolist()
-
-    # Nifty 50 Index
-    index = "^NSEI"
+    index = "^NSEI"  # Nifty 50 Index
 
     # Calculate beta for each stock and store results in a list
     beta_data = []
@@ -109,7 +115,7 @@ if __name__ == "__main__":
             beta_data.append([stock, beta])  # Store the result in a list
         else:
             print(f"Skipping {stock} due to calculation error.")
-
+        
         # Add delay to avoid hitting API rate limits
         time.sleep(1)  # Sleep for 1 second between requests
 
