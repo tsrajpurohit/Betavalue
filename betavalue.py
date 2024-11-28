@@ -45,7 +45,7 @@ def update_google_sheet(worksheet, data):
     except Exception as e:
         print(f"Error updating Google Sheets: {e}")
 
-def calculate_beta(stock, index, period="1y"):
+def calculate_beta(stock, index, period="1y", threshold=0.01):
     try:
         # Download stock and index data
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
@@ -60,9 +60,9 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
-        # Handle zeros (no price movement)
-        returns_stock[returns_stock == 0] = np.nan
-        returns_index[returns_index == 0] = np.nan
+        # Handle small or near-zero returns
+        returns_stock[returns_stock.abs() < threshold] = np.nan
+        returns_index[returns_index.abs() < threshold] = np.nan
 
         # After cleaning, check if we still have enough data points
         returns_stock = returns_stock.dropna()
@@ -98,6 +98,7 @@ def calculate_beta(stock, index, period="1y"):
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
+
 
 if __name__ == "__main__":
     # Fetch Google Sheets credentials from GitHub secrets
