@@ -70,10 +70,10 @@ def calculate_beta(stock, index, period="1y"):
         index_data = yf.download(index, period=period)['Close']
 
         # Validate if stock_data and index_data are not empty or full of NaN values
-        if stock_data.empty or stock_data.isna().all():
+        if stock_data.empty or stock_data.isna().all():  # Check if stock data is empty or all NaNs
             print(f"Failed to fetch valid data for {stock}. Skipping beta calculation.")
             return None
-        if index_data.empty or index_data.isna().all():
+        if index_data.empty or index_data.isna().all():  # Check if index data is empty or all NaNs
             print(f"Failed to fetch valid data for index {index}. Skipping beta calculation.")
             return None
 
@@ -106,6 +106,7 @@ def calculate_beta(stock, index, period="1y"):
         return None
 
 
+
 if __name__ == "__main__":
     # Authenticate with Google Sheets using the environment variable approach
     sheet = authenticate_google_sheets()
@@ -128,7 +129,7 @@ if __name__ == "__main__":
     beta_data = []
     for stock in stocks:
         print(f"Processing stock: {stock}")
-        beta = calculate_beta(stock, index, period="1ytd")
+        beta = calculate_beta(stock, index, period="1y")
         if beta is not None:
             print(f"{stock}: {beta}")
             beta_data.append([stock, beta])  # Store the result in a list
