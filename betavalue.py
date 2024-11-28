@@ -51,8 +51,10 @@ def calculate_beta(stock, index, period="1y"):
     try:
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
         index_data = yf.download(index, period=period)['Close']
-        returns_stock = stock_data.pct_change().dropna()
-        returns_index = index_data.pct_change().dropna()
+        
+        # Ensure the data is in list format
+        returns_stock = stock_data.pct_change().dropna().tolist()  # Convert Series to list
+        returns_index = index_data.pct_change().dropna().tolist()  # Convert Series to list
 
         min_len = min(len(returns_stock), len(returns_index))
         returns_stock = returns_stock[-min_len:]
