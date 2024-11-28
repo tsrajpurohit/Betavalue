@@ -5,19 +5,13 @@ dtype: float64"
 ASTRAL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-IDEA,"Ticker
-^NSEI   NaN
-dtype: float64"
-CHAMBLFERT,"Ticker
-^NSEI   NaN
-dtype: float64"
 EXIDEIND,"Ticker
 ^NSEI   NaN
 dtype: float64"
 ABFRL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BHARATFORG,"Ticker
+CHAMBLFERT,"Ticker
 ^NSEI   NaN
 dtype: float64"
 BHEL,"Ticker
@@ -26,37 +20,16 @@ dtype: float64"
 LTF,"Ticker
 ^NSEI   NaN
 dtype: float64"
-DIXON,"Ticker
+BHARATFORG,"Ticker
 ^NSEI   NaN
 dtype: float64"
-INDIGO,"Ticker
-^NSEI   NaN
-dtype: float64"
-ADANIPORTS,"Ticker
-^NSEI   NaN
-dtype: float64"
-LICHSGFIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-IEX,"Ticker
-^NSEI   NaN
-dtype: float64"
-GNFC,"Ticker
-^NSEI   NaN
-dtype: float64"
-PNB,"Ticker
-^NSEI   NaN
-dtype: float64"
-BIOCON,"Ticker
-^NSEI   NaN
-dtype: float64"
-BPCL,"Ticker
+IDEA,"Ticker
 ^NSEI   NaN
 dtype: float64"
 GAIL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-COLPAL,"Ticker
+LICHSGFIN,"Ticker
 ^NSEI   NaN
 dtype: float64"
 RBLBANK,"Ticker
@@ -65,52 +38,91 @@ dtype: float64"
 PFC,"Ticker
 ^NSEI   NaN
 dtype: float64"
-CANBK,"Ticker
+ADANIPORTS,"Ticker
 ^NSEI   NaN
 dtype: float64"
-UPL,"Ticker
-^NSEI   NaN
-dtype: float64"
-SIEMENS,"Ticker
-^NSEI   NaN
-dtype: float64"
-VEDL,"Ticker
-^NSEI   NaN
-dtype: float64"
-PVRINOX,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDPETRO,"Ticker
-^NSEI   NaN
-dtype: float64"
-MANAPPURAM,"Ticker
-^NSEI   NaN
-dtype: float64"
-BANDHANBNK,"Ticker
+IEX,"Ticker
 ^NSEI   NaN
 dtype: float64"
 COALINDIA,"Ticker
 ^NSEI   NaN
 dtype: float64"
-UBL,"Ticker
+DIXON,"Ticker
 ^NSEI   NaN
 dtype: float64"
-MGL,"Ticker
+VEDL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BANKBARODA,"Ticker
+PNB,"Ticker
 ^NSEI   NaN
 dtype: float64"
-CUB,"Ticker
+INDIGO,"Ticker
+^NSEI   NaN
+dtype: float64"
+GNFC,"Ticker
+^NSEI   NaN
+dtype: float64"
+BPCL,"Ticker
+^NSEI   NaN
+dtype: float64"
+CANBK,"Ticker
+^NSEI   NaN
+dtype: float64"
+BIOCON,"Ticker
+^NSEI   NaN
+dtype: float64"
+COLPAL,"Ticker
+^NSEI   NaN
+dtype: float64"
+POLYCAB,"Ticker
+^NSEI   NaN
+dtype: float64"
+MANAPPURAM,"Ticker
+^NSEI   NaN
+dtype: float64"
+SIEMENS,"Ticker
 ^NSEI   NaN
 dtype: float64"
 IOC,"Ticker
 ^NSEI   NaN
 dtype: float64"
-INDUSINDBK,"Ticker
+CUB,"Ticker
 ^NSEI   NaN
 dtype: float64"
-SBIN,"Ticker
+PVRINOX,"Ticker
+^NSEI   NaN
+dtype: float64"
+CONCOR,"Ticker
+^NSEI   NaN
+dtype: float64"
+HINDPETRO,"Ticker
+^NSEI   NaN
+dtype: float64"
+BANKBARODA,"Ticker
+^NSEI   NaN
+dtype: float64"
+RECLTD,"Ticker
+^NSEI   NaN
+dtype: float64"
+BANDHANBNK,"Ticker
+^NSEI   NaN
+dtype: float64"
+UPL,"Ticker
+^NSEI   NaN
+dtype: float64"
+UBL,"Ticker
+^NSEI   NaN
+dtype: float64"
+ABCAPITAL,"Ticker
+^NSEI   NaN
+dtype: float64"
+MCX,"Ticker
+^NSEI   NaN
+dtype: float64"
+GMRINFRA,"Ticker
+^NSEI   NaN
+dtype: float64"
+M&MFIN,"Ticker
 ^NSEI   NaN
 dtype: float64"
 IDFCFIRSTB,"Ticker
@@ -119,28 +131,28 @@ dtype: float64"
 SHRIRAMFIN,"Ticker
 ^NSEI   NaN
 dtype: float64"
-MCX,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATACHEM,"Ticker
-^NSEI   NaN
-dtype: float64"
-GMRINFRA,"Ticker
-^NSEI   NaN
-dtype: float64"
-HDFCBANK,"Ticker
-^NSEI   NaN
-dtype: float64"
 AARTIIND,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ABCAPITAL,"Ticker
+MGL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-CONCOR,"Ticker
+IGL,"Ticker
+^NSEI   NaN
+dtype: float64"
+NMDC,"Ticker
+^NSEI   NaN
+dtype: float64"
+ONGC,"Ticker
+^NSEI   NaN
+dtype: float64"
+SBIN,"Ticker
 ^NSEI   NaN
 dtype: float64"
 INDIAMART,"Ticker
+^NSEI   NaN
+dtype: float64"
+INDUSINDBK,"Ticker
 ^NSEI   NaN
 dtype: float64"
 ICICIGI,"Ticker
@@ -149,28 +161,19 @@ dtype: float64"
 HDFCLIFE,"Ticker
 ^NSEI   NaN
 dtype: float64"
-POLYCAB,"Ticker
-^NSEI   NaN
-dtype: float64"
-IGL,"Ticker
-^NSEI   NaN
-dtype: float64"
-GODREJCP,"Ticker
-^NSEI   NaN
-dtype: float64"
-M&MFIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDUNILVR,"Ticker
-^NSEI   NaN
-dtype: float64"
-NMDC,"Ticker
-^NSEI   NaN
-dtype: float64"
 SBICARD,"Ticker
 ^NSEI   NaN
 dtype: float64"
-PETRONET,"Ticker
+TATAMOTORS,"Ticker
+^NSEI   NaN
+dtype: float64"
+HINDCOPPER,"Ticker
+^NSEI   NaN
+dtype: float64"
+NATIONALUM,"Ticker
+^NSEI   NaN
+dtype: float64"
+TATACHEM,"Ticker
 ^NSEI   NaN
 dtype: float64"
 PEL,"Ticker
@@ -179,259 +182,238 @@ dtype: float64"
 JINDALSTEL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-RECLTD,"Ticker
+GODREJCP,"Ticker
 ^NSEI   NaN
 dtype: float64"
-AMBUJACEM,"Ticker
+HDFCBANK,"Ticker
+^NSEI   NaN
+dtype: float64"
+HINDUNILVR,"Ticker
 ^NSEI   NaN
 dtype: float64"
 MFSL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-SAIL,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDCOPPER,"Ticker
-^NSEI   NaN
-dtype: float64"
-ITC,"Ticker
-^NSEI   NaN
-dtype: float64"
-HAL,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATAMOTORS,"Ticker
-^NSEI   NaN
-dtype: float64"
-SBILIFE,"Ticker
-^NSEI   NaN
-dtype: float64"
-NATIONALUM,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATACONSUM,"Ticker
-^NSEI   NaN
-dtype: float64"
-ONGC,"Ticker
-^NSEI   NaN
-dtype: float64"
-INDUSTOWER,"Ticker
+PETRONET,"Ticker
 ^NSEI   NaN
 dtype: float64"
 GUJGASLTD,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BAJAJ-AUTO,"Ticker
-^NSEI   NaN
-dtype: float64"
-MARICO,"Ticker
+SAIL,"Ticker
 ^NSEI   NaN
 dtype: float64"
 HDFCAMC,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ICICIBANK,"Ticker
+INDUSTOWER,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ACC,"Ticker
-^NSEI   NaN
-dtype: float64"
-LUPIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-CROMPTON,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATAPOWER,"Ticker
-^NSEI   NaN
-dtype: float64"
-COROMANDEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-BEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATASTEEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-APOLLOHOSP,"Ticker
-^NSEI   NaN
-dtype: float64"
-AUROPHARMA,"Ticker
-^NSEI   NaN
-dtype: float64"
-PIIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-ZYDUSLIFE,"Ticker
-^NSEI   NaN
-dtype: float64"
-HEROMOTOCO,"Ticker
-^NSEI   NaN
-dtype: float64"
-NAUKRI,"Ticker
-^NSEI   NaN
-dtype: float64"
-TVSMOTOR,"Ticker
-^NSEI   NaN
-dtype: float64"
-BERGEPAINT,"Ticker
-^NSEI   NaN
-dtype: float64"
-IRCTC,"Ticker
-^NSEI   NaN
-dtype: float64"
-GODREJPROP,"Ticker
+AMBUJACEM,"Ticker
 ^NSEI   NaN
 dtype: float64"
 BATAINDIA,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BHARTIARTL,"Ticker
+HAL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BOSCHLTD,"Ticker
+ITC,"Ticker
 ^NSEI   NaN
 dtype: float64"
-LAURUSLABS,"Ticker
+GODREJPROP,"Ticker
 ^NSEI   NaN
 dtype: float64"
-SHREECEM,"Ticker
+SBILIFE,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ATUL,"Ticker
+TATACONSUM,"Ticker
 ^NSEI   NaN
 dtype: float64"
-JSWSTEEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-BSOFT,"Ticker
+CROMPTON,"Ticker
 ^NSEI   NaN
 dtype: float64"
 OBEROIRLTY,"Ticker
 ^NSEI   NaN
 dtype: float64"
-SUNTV,"Ticker
+HEROMOTOCO,"Ticker
 ^NSEI   NaN
 dtype: float64"
-AUBANK,"Ticker
+IRCTC,"Ticker
+^NSEI   NaN
+dtype: float64"
+TATAPOWER,"Ticker
+^NSEI   NaN
+dtype: float64"
+BEL,"Ticker
+^NSEI   NaN
+dtype: float64"
+LUPIN,"Ticker
 ^NSEI   NaN
 dtype: float64"
 JUBLFOOD,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BALKRISIND,"Ticker
+ICICIBANK,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BAJFINANCE,"Ticker
+COROMANDEL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-BRITANNIA,"Ticker
+AUROPHARMA,"Ticker
 ^NSEI   NaN
 dtype: float64"
-DABUR,"Ticker
+LAURUSLABS,"Ticker
 ^NSEI   NaN
 dtype: float64"
-PAGEIND,"Ticker
+BAJAJ-AUTO,"Ticker
 ^NSEI   NaN
 dtype: float64"
-DEEPAKNTR,"Ticker
+TVSMOTOR,"Ticker
 ^NSEI   NaN
 dtype: float64"
-LT,"Ticker
+ZYDUSLIFE,"Ticker
+^NSEI   NaN
+dtype: float64"
+NAUKRI,"Ticker
+^NSEI   NaN
+dtype: float64"
+MARICO,"Ticker
 ^NSEI   NaN
 dtype: float64"
 AXISBANK,"Ticker
 ^NSEI   NaN
 dtype: float64"
-GRASIM,"Ticker
+ACC,"Ticker
 ^NSEI   NaN
 dtype: float64"
-CHOLAFIN,"Ticker
+TATASTEEL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ASHOKLEY,"Ticker
+BSOFT,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ALKEM,"Ticker
+PAGEIND,"Ticker
 ^NSEI   NaN
 dtype: float64"
-HAVELLS,"Ticker
+BRITANNIA,"Ticker
 ^NSEI   NaN
 dtype: float64"
-KOTAKBANK,"Ticker
+BHARTIARTL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ASIANPAINT,"Ticker
+DABUR,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ESCORTS,"Ticker
-^NSEI   NaN
-dtype: float64"
-RELIANCE,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDALCO,"Ticker
-^NSEI   NaN
-dtype: float64"
-TITAN,"Ticker
-^NSEI   NaN
-dtype: float64"
-METROPOLIS,"Ticker
-^NSEI   NaN
-dtype: float64"
-ABBOTINDIA,"Ticker
-^NSEI   NaN
-dtype: float64"
-DRREDDY,"Ticker
-^NSEI   NaN
-dtype: float64"
-WIPRO,"Ticker
-^NSEI   NaN
-dtype: float64"
-CANFINHOME,"Ticker
-^NSEI   NaN
-dtype: float64"
-VOLTAS,"Ticker
-^NSEI   NaN
-dtype: float64"
-TRENT,"Ticker
+BOSCHLTD,"Ticker
 ^NSEI   NaN
 dtype: float64"
 SRF,"Ticker
 ^NSEI   NaN
 dtype: float64"
-NAVINFLUOR,"Ticker
+JSWSTEEL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-PIDILITIND,"Ticker
+BERGEPAINT,"Ticker
+^NSEI   NaN
+dtype: float64"
+ATUL,"Ticker
+^NSEI   NaN
+dtype: float64"
+PIIND,"Ticker
+^NSEI   NaN
+dtype: float64"
+BAJFINANCE,"Ticker
+^NSEI   NaN
+dtype: float64"
+BALKRISIND,"Ticker
+^NSEI   NaN
+dtype: float64"
+SHREECEM,"Ticker
+^NSEI   NaN
+dtype: float64"
+ESCORTS,"Ticker
+^NSEI   NaN
+dtype: float64"
+LT,"Ticker
+^NSEI   NaN
+dtype: float64"
+RELIANCE,"Ticker
+^NSEI   NaN
+dtype: float64"
+DEEPAKNTR,"Ticker
 ^NSEI   NaN
 dtype: float64"
 CUMMINSIND,"Ticker
 ^NSEI   NaN
 dtype: float64"
-MOTHERSON,"Ticker
+HAVELLS,"Ticker
 ^NSEI   NaN
 dtype: float64"
-NTPC,"Ticker
+ASHOKLEY,"Ticker
 ^NSEI   NaN
 dtype: float64"
-ULTRACEMCO,"Ticker
+CANFINHOME,"Ticker
 ^NSEI   NaN
 dtype: float64"
-MRF,"Ticker
+APOLLOHOSP,"Ticker
 ^NSEI   NaN
 dtype: float64"
-NESTLEIND,"Ticker
+SUNTV,"Ticker
 ^NSEI   NaN
 dtype: float64"
-DALBHARAT,"Ticker
+HINDALCO,"Ticker
 ^NSEI   NaN
 dtype: float64"
-SUNPHARMA,"Ticker
+VOLTAS,"Ticker
+^NSEI   NaN
+dtype: float64"
+AUBANK,"Ticker
+^NSEI   NaN
+dtype: float64"
+TITAN,"Ticker
+^NSEI   NaN
+dtype: float64"
+DRREDDY,"Ticker
+^NSEI   NaN
+dtype: float64"
+ASIANPAINT,"Ticker
+^NSEI   NaN
+dtype: float64"
+ALKEM,"Ticker
+^NSEI   NaN
+dtype: float64"
+METROPOLIS,"Ticker
+^NSEI   NaN
+dtype: float64"
+KOTAKBANK,"Ticker
+^NSEI   NaN
+dtype: float64"
+NAVINFLUOR,"Ticker
+^NSEI   NaN
+dtype: float64"
+WIPRO,"Ticker
+^NSEI   NaN
+dtype: float64"
+ABBOTINDIA,"Ticker
+^NSEI   NaN
+dtype: float64"
+PIDILITIND,"Ticker
+^NSEI   NaN
+dtype: float64"
+GRASIM,"Ticker
+^NSEI   NaN
+dtype: float64"
+TRENT,"Ticker
+^NSEI   NaN
+dtype: float64"
+DLF,"Ticker
 ^NSEI   NaN
 dtype: float64"
 ICICIPRULI,"Ticker
+^NSEI   NaN
+dtype: float64"
+MOTHERSON,"Ticker
 ^NSEI   NaN
 dtype: float64"
 FEDERALBNK,"Ticker
@@ -440,13 +422,55 @@ dtype: float64"
 COFORGE,"Ticker
 ^NSEI   NaN
 dtype: float64"
+PERSISTENT,"Ticker
+^NSEI   NaN
+dtype: float64"
+DALBHARAT,"Ticker
+^NSEI   NaN
+dtype: float64"
+DIVISLAB,"Ticker
+^NSEI   NaN
+dtype: float64"
+MRF,"Ticker
+^NSEI   NaN
+dtype: float64"
+NESTLEIND,"Ticker
+^NSEI   NaN
+dtype: float64"
+CHOLAFIN,"Ticker
+^NSEI   NaN
+dtype: float64"
+NTPC,"Ticker
+^NSEI   NaN
+dtype: float64"
+SUNPHARMA,"Ticker
+^NSEI   NaN
+dtype: float64"
+ULTRACEMCO,"Ticker
+^NSEI   NaN
+dtype: float64"
+ABB,"Ticker
+^NSEI   NaN
+dtype: float64"
 INDHOTEL,"Ticker
 ^NSEI   NaN
 dtype: float64"
-CIPLA,"Ticker
+SYNGENE,"Ticker
 ^NSEI   NaN
 dtype: float64"
 MARUTI,"Ticker
+^NSEI   NaN
+dtype: float64"
+RAMCOCEM,"Ticker
+^NSEI   NaN
+dtype: float64"
+TATACOMM,"Ticker
+^NSEI   NaN
+dtype: float64"
+OFSS,"Ticker
+^NSEI   NaN
+dtype: float64"
+TORNTPHARM,"Ticker
 ^NSEI   NaN
 dtype: float64"
 TCS,"Ticker
@@ -455,49 +479,28 @@ dtype: float64"
 GRANULES,"Ticker
 ^NSEI   NaN
 dtype: float64"
-SYNGENE,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATACOMM,"Ticker
-^NSEI   NaN
-dtype: float64"
-BAJAJFINSV,"Ticker
-^NSEI   NaN
-dtype: float64"
-ABB,"Ticker
-^NSEI   NaN
-dtype: float64"
 HCLTECH,"Ticker
 ^NSEI   NaN
 dtype: float64"
-DLF,"Ticker
-^NSEI   NaN
-dtype: float64"
-DIVISLAB,"Ticker
-^NSEI   NaN
-dtype: float64"
-TORNTPHARM,"Ticker
+CIPLA,"Ticker
 ^NSEI   NaN
 dtype: float64"
 GLENMARK,"Ticker
 ^NSEI   NaN
 dtype: float64"
-RAMCOCEM,"Ticker
-^NSEI   NaN
-dtype: float64"
-OFSS,"Ticker
-^NSEI   NaN
-dtype: float64"
-PERSISTENT,"Ticker
-^NSEI   NaN
-dtype: float64"
 APOLLOTYRE,"Ticker
 ^NSEI   NaN
 dtype: float64"
-LALPATHLAB,"Ticker
+BAJAJFINSV,"Ticker
+^NSEI   NaN
+dtype: float64"
+LTIM,"Ticker
 ^NSEI   NaN
 dtype: float64"
 JKCEMENT,"Ticker
+^NSEI   NaN
+dtype: float64"
+LALPATHLAB,"Ticker
 ^NSEI   NaN
 dtype: float64"
 MUTHOOTFIN,"Ticker
@@ -506,19 +509,16 @@ dtype: float64"
 POWERGRID,"Ticker
 ^NSEI   NaN
 dtype: float64"
-LTIM,"Ticker
+IPCALAB,"Ticker
 ^NSEI   NaN
 dtype: float64"
-IPCALAB,"Ticker
+MPHASIS,"Ticker
 ^NSEI   NaN
 dtype: float64"
 INFY,"Ticker
 ^NSEI   NaN
 dtype: float64"
 TECHM,"Ticker
-^NSEI   NaN
-dtype: float64"
-MPHASIS,"Ticker
 ^NSEI   NaN
 dtype: float64"
 M&M,"Ticker
