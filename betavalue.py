@@ -45,7 +45,6 @@ def update_google_sheet(worksheet, data):
     except Exception as e:
         print(f"Error updating Google Sheets: {e}")
 
-# Function to calculate beta with additional checks
 def calculate_beta(stock, index, period="1y"):
     try:
         # Download stock and index data
@@ -61,9 +60,17 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
-        # Check if returns are valid (not empty)
+        # Check if returns are valid (not empty or NaN)
         if returns_stock.empty or returns_index.empty:
             print(f"Not enough valid return data for {stock} or {index}. Skipping.")
+            return None
+
+        # Handle NaN values if present
+        returns_stock = returns_stock[~returns_stock.isna()]
+        returns_index = returns_index[~returns_index.isna()]
+
+        if returns_stock.empty or returns_index.empty:
+            print(f"After cleaning, no valid return data for {stock} or {index}. Skipping.")
             return None
 
         # Align data lengths
@@ -71,18 +78,23 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = returns_stock[-min_len:]
         returns_index = returns_index[-min_len:]
 
-        # Calculate variance and covariance
+        # Calculate covariance and variance
+        covariance = np.cov(returns_stock, returns_index)[0][1]
         variance_index = np.var(returns_index, axis=0)  # Explicit axis=0
+
+        # Avoid division by zero
         if variance_index == 0:
             print(f"Variance of {index} is zero for {stock}, skipping.")
             return None
 
-        covariance = np.cov(returns_stock, returns_index)[0][1]
+        # Calculate beta
         beta = covariance / variance_index
         return beta
+
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
+
 
 
 if __name__ == "__main__":
