@@ -6,6 +6,7 @@ from google.oauth2.service_account import Credentials
 import json
 import time
 import os  # Added missing import
+import csv  # Added csv module for saving data
 
 # Function to authenticate and get the Google Sheets client
 def authenticate_google_sheets(credentials_json):
@@ -65,6 +66,17 @@ def calculate_beta(stock, index, period="1y"):
         print(f"Error calculating beta for {stock}: {e}")
         return None
 
+# Function to save beta values to a CSV file
+def save_to_csv(data, filename="beta_values.csv"):
+    try:
+        with open(filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Stock", "Beta"])  # Header row
+            writer.writerows(data)  # Write data rows
+        print(f"Beta values saved to {filename} successfully.")
+    except Exception as e:
+        print(f"Error saving to CSV: {e}")
+
 if __name__ == "__main__":
     # Fetch credentials from environment variables
     credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string from environment
@@ -111,5 +123,6 @@ if __name__ == "__main__":
     # Update Google Sheet with the beta data
     if beta_data:
         update_google_sheet(worksheet, beta_data)
+        save_to_csv(beta_data)  # Save beta values to CSV file
     else:
         print("No beta data to upload.")
