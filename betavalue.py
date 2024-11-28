@@ -61,7 +61,8 @@ def calculate_beta(stock, index, period="1y"):
         stock_data = safe_yf_download(f"{stock}.NS", period)
         index_data = safe_yf_download(index, period)
 
-        if stock_data is None or index_data is None:
+        if stock_data is None or index_data is None or len(stock_data) < 2 or len(index_data) < 2:
+            print(f"Not enough data for {stock} or {index}. Skipping beta calculation.")
             return None
 
         # Calculate daily returns
@@ -73,14 +74,25 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = returns_stock[-min_len:]
         returns_index = returns_index[-min_len:]
 
-        # Calculate beta
+        # Ensure there are no zero variance issues
+        variance_index = np.var(returns_index)
+        if variance_index == 0:
+            print(f"Variance is zero for {index}. Skipping beta calculation for {stock}.")
+            return None
+
+        # Calculate covariance and beta
         covariance = np.cov(returns_stock, returns_index)[0][1]
-        variance = np.var(returns_index)
-        beta = covariance / variance
+        beta = covariance / variance_index
+
+        if np.isnan(beta) or np.isinf(beta):
+            print(f"Invalid beta value for {stock}. Skipping.")
+            return None
+
         return beta
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
+
 
 # Function to safely download data with retries
 def safe_yf_download(ticker, period="1y"):
