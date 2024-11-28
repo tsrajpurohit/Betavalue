@@ -88,7 +88,7 @@ def calculate_beta(stock, index, period="1y"):
 
 if __name__ == "__main__":
     # Get the credentials path from an environment variable
-    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS_PATH")
+    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
     if not credentials_path:
         raise ValueError("Environment variable 'GOOGLE_SHEETS_CREDENTIALS_PATH' is not set.")
 
