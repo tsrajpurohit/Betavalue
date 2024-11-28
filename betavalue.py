@@ -1,36 +1,26 @@
-import os
-import json
-import gspread
-from google.oauth2.service_account import Credentials
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
+import gspread
+from google.oauth2.service_account import Credentials
+import json
 import time
 
-# Fetch credentials and Sheet ID from environment variables
-credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string from environment
-SHEET_ID = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Google Sheets ID from environment
+# Function to authenticate and get the Google Sheets client
+def authenticate_google_sheets(credentials_json):
+    try:
+        credentials_info = json.loads(credentials_json)
+        credentials = Credentials.from_service_account_info(
+            credentials_info,
+            scopes=["https://www.googleapis.com/auth/spreadsheets"]
+        )
+        client = gspread.authorize(credentials)
+        return client
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
 
-if not credentials_json:
-    raise ValueError("GOOGLE_SHEETS_CREDENTIALS environment variable is not set.")
-
-if not SHEET_ID:
-    raise ValueError("SHEET_ID environment variable is not set.")
-
-# Authenticate using the JSON string from environment
-credentials_info = json.loads(credentials_json)
-credentials = Credentials.from_service_account_info(
-    credentials_info,
-    scopes=["https://www.googleapis.com/auth/spreadsheets"]
-)
-
-# Authorize and get the client
-client = gspread.authorize(credentials)
-
-# Open the Google Sheet by ID
-sheet = client.open_by_key(SHEET_ID)
-
-# Function to create or get worksheet
+# Function to create a new worksheet if it doesn't exist
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
         # Try to get the worksheet by name
@@ -83,6 +73,30 @@ def calculate_beta(stock, index, period="1y"):
         return None
 
 if __name__ == "__main__":
+    # Absolute path for credentials JSON file
+   # Fetch credentials from environment variables
+   credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string from environment
+
+   if not credentials_json:
+      raise ValueError("GOOGLE_SHEETS_CREDENTIALS environment variable is not set.")
+
+    # Read the credentials JSON from the absolute path
+    try:
+        with open(credentials_path, "r") as file:
+            credentials_json = file.read()
+    except FileNotFoundError:
+        raise ValueError(f"Credentials file not found at {credentials_path}")
+
+    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
+    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
+
+    # Authenticate with Google Sheets
+    client = authenticate_google_sheets(credentials_json)
+    if not client:
+        raise ValueError("Google Sheets authentication failed.")
+    
+    sheet = client.open_by_key(sheet_id)  # Open the sheet by ID
+
     # Name of the worksheet to be created or accessed
     worksheet_name = "Beta Values"  # Change this to whatever name you'd like
 
