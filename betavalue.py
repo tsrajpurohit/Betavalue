@@ -60,17 +60,18 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
-        # Check if returns are valid (not empty or NaN)
-        if returns_stock.empty or returns_index.empty:
-            print(f"Not enough valid return data for {stock} or {index}. Skipping.")
+        # Check if returns have enough data points
+        if len(returns_stock) <= 1 or len(returns_index) <= 1:
+            print(f"Not enough return data for {stock} or {index}. Skipping.")
             return None
 
         # Handle NaN values if present
         returns_stock = returns_stock[~returns_stock.isna()]
         returns_index = returns_index[~returns_index.isna()]
 
-        if returns_stock.empty or returns_index.empty:
-            print(f"After cleaning, no valid return data for {stock} or {index}. Skipping.")
+        # After cleaning, check if we still have enough data points
+        if len(returns_stock) <= 1 or len(returns_index) <= 1:
+            print(f"After cleaning, not enough return data for {stock} or {index}. Skipping.")
             return None
 
         # Align data lengths
@@ -78,7 +79,7 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = returns_stock[-min_len:]
         returns_index = returns_index[-min_len:]
 
-        # Calculate covariance and variance
+        # Calculate covariance and variance only if we have enough data points
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance_index = np.var(returns_index, axis=0)  # Explicit axis=0
 
@@ -94,6 +95,7 @@ def calculate_beta(stock, index, period="1y"):
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
+
 
 
 
