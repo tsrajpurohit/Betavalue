@@ -1,10 +1,10 @@
+import os
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
 import gspread
 from google.oauth2.service_account import Credentials
 import json
-import os  # Added to work with environment variables
 import time
 
 # Function to authenticate and get the Google Sheets client
@@ -21,7 +21,7 @@ def authenticate_google_sheets(credentials_json):
         print(f"Error: {e}")
         return None
 
-# Function to create or get the worksheet
+# Function to create a new worksheet if it doesn't exist
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
         # Try to get the worksheet by name
@@ -37,7 +37,7 @@ def create_or_get_worksheet(sheet, worksheet_name):
         print(f"Error creating or accessing worksheet: {e}")
         return None
 
-# Function to update Google Sheets with beta values
+# Function to update the Google Sheet with beta values
 def update_google_sheet(worksheet, data):
     try:
         # Prepare the data in the format [["Stock", "Beta"], ...]
@@ -48,38 +48,21 @@ def update_google_sheet(worksheet, data):
     except Exception as e:
         print(f"Error updating Google Sheets: {e}")
 
-# Function to download stock and index data with retries
-def download_data_with_retry(stock, index, retries=3, delay=5):
-    for attempt in range(retries):
-        try:
-            stock_data = yf.download(f"{stock}.NS", period="1y")['Close']
-            index_data = yf.download(index, period="1y")['Close']
-            if stock_data.isna().all() or index_data.isna().all():
-                print(f"No data found for {stock} or {index}")
-                return None, None
-            return stock_data, index_data
-        except Exception as e:
-            print(f"Attempt {attempt+1} failed for {stock}: {e}")
-            if attempt < retries - 1:
-                time.sleep(delay)
-            else:
-                return None, None
-
 # Function to calculate beta
 def calculate_beta(stock, index, period="1y"):
     try:
-        # Download stock and index data with retries
-        stock_data, index_data = download_data_with_retry(stock, index)
-        if stock_data is None or index_data is None:
+        # Download stock and index data
+        stock_data = yf.download(f"{stock}.NS", period=period)['Close']
+        index_data = yf.download(index, period=period)['Close']
+
+        # Check if data is available
+        if stock_data.isna().all() or index_data.isna().all():
+            print(f"No data found for {stock} or {index}")
             return None
-        
+
         # Calculate daily returns
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
-
-        # Log the data for debugging
-        print(f"Returns for {stock}: {returns_stock.head()}")
-        print(f"Returns for {index}: {returns_index.head()}")
 
         # Align data lengths
         min_len = min(len(returns_stock), len(returns_index))
@@ -89,25 +72,26 @@ def calculate_beta(stock, index, period="1y"):
         # Calculate beta
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
-
+        
         if variance == 0:  # Check for zero variance in the index data
             print(f"Zero variance in index data for {stock}")
             return None
 
         beta = covariance / variance
-        print(f"Calculated beta for {stock}: {beta}")
         return beta
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
 
-if __name__ == "__main__":
-    # Get the credentials path from the environment variable
-    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
-    if not credentials_path:
-        raise ValueError("Environment variable CREDENTIALS_PATH is not set.")
 
-    # Read the credentials JSON from the environment variable
+if __name__ == "__main__":
+    # Fetch credentials path from environment variable
+    credentials_path = os.getenv("GOOGLE_SHEET_CREDENTIALS_PATH")
+    
+    if not credentials_path:
+        raise ValueError("Credentials path not found. Please set the GOOGLE_SHEET_CREDENTIALS_PATH environment variable.")
+    
+    # Read the credentials JSON from the environment variable path
     try:
         with open(credentials_path, "r") as file:
             credentials_json = file.read()
