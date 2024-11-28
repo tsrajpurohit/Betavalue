@@ -1,74 +1,35 @@
+import os
+import json
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
 import gspread
 from google.oauth2.service_account import Credentials
-import json
-import os
-import time
 import csv
-import math
 
-# Function to create or get the worksheet
-def create_or_get_worksheet(sheet, worksheet_name):
-    try:
-        try:
-            worksheet = sheet.worksheet(worksheet_name)
-            print(f"Worksheet '{worksheet_name}' already exists.")
-        except gspread.exceptions.WorksheetNotFound:
-            worksheet = sheet.add_worksheet(title=worksheet_name, rows="100", cols="2")
-            print(f"Worksheet '{worksheet_name}' created.")
-        return worksheet
-    except Exception as e:
-        print(f"Error creating or accessing worksheet: {e}")
-        return None
+# Fetch credentials and Sheet ID from environment variables
+credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string
+SHEET_ID = os.getenv('SHEET_ID')  # Assuming the Sheet ID is also stored as an environment variable
 
-# Function to update the Google Sheet with beta values
-def update_google_sheet(worksheet, data):
-    try:
-        values = [["Stock", "Beta"]] + data
-        worksheet.clear()
-        worksheet.update("A1", values)
-        print("Beta values uploaded successfully.")
-    except Exception as e:
-        print(f"Error updating Google Sheets: {e}")
+if not credentials_json or not SHEET_ID:
+    raise ValueError("GOOGLE_SHEETS_CREDENTIALS or SHEET_ID environment variables are not set.")
 
-# Function to save beta values to a CSV file
-def save_to_csv(file_name, data):
-    try:
-        with open(file_name, mode="w", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(["Stock", "Beta"])  # Add header
-            writer.writerows(data)
-        print(f"Beta values saved to {file_name} successfully.")
-    except Exception as e:
-        print(f"Error saving to CSV: {e}")
+# Authenticate using the JSON string from environment
+credentials_info = json.loads(credentials_json)
+credentials = Credentials.from_service_account_info(
+    credentials_info,
+    scopes=["https://www.googleapis.com/auth/spreadsheets"]
+)
+client = gspread.authorize(credentials)
 
-# Function to calculate beta
+# Open the Google Sheet by ID
+sheet = client.open_by_key(SHEET_ID)
+
 def calculate_beta(stock, index, period="1y"):
     try:
         # Download stock and index data
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
-        
-        # Retry mechanism for index data
-        index_data = None
-        retries = 3
-        while retries > 0:
-            index_data = yf.download(index, period=period)['Close']
-            if not index_data.empty:
-                break
-            retries -= 1
-            print(f"Retrying index download for {index}... {3 - retries} attempt(s) left.")
-            time.sleep(2)  # Sleep for a few seconds before retrying
-        
-        if index_data is None or index_data.empty:
-            print(f"Failed to fetch index data for {index}. Skipping stock: {stock}")
-            return None
-        
-        # Check if stock data is valid
-        if stock_data.empty:
-            print(f"Failed to fetch stock data for {stock}. Skipping stock.")
-            return None
+        index_data = yf.download(index, period=period)['Close']
 
         # Calculate daily returns
         returns_stock = stock_data.pct_change().dropna()
@@ -83,68 +44,38 @@ def calculate_beta(stock, index, period="1y"):
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
         beta = covariance / variance
-
-        # Handle cases where beta is infinite or NaN
-        if math.isinf(beta) or math.isnan(beta):
-            print(f"Invalid beta value for {stock}: {beta}")
-            return None
-
         return beta
     except Exception as e:
-        print(f"Error calculating beta for {stock}: {e}")
-        return None
+        return f"Error: {e}"
 
 if __name__ == "__main__":
-    # Fetch credentials and Sheet ID from environment variables
-    credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string
-    SHEET_ID = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"
-
-    if not credentials_json:
-        raise ValueError("GOOGLE_SHEETS_CREDENTIALS environment variable is not set.")
-
-    # Authenticate using the JSON string from environment
-    credentials_info = json.loads(credentials_json)
-    credentials = Credentials.from_service_account_info(
-        credentials_info,
-        scopes=["https://www.googleapis.com/auth/spreadsheets"]
-    )
-    client = gspread.authorize(credentials)
-
-    # Open the Google Sheet by ID
-    sheet = client.open_by_key(SHEET_ID)
-
-    # Worksheet name
-    worksheet_name = "Beta Values"
-    
-    # Output CSV file name
-    output_csv = "beta_values.csv"
-
-    # Create or get the worksheet
-    worksheet = create_or_get_worksheet(sheet, worksheet_name)
-    if not worksheet:
-        raise ValueError("Failed to get or create the worksheet.")
-
     # Fetch all F&O stock symbols
     stocks = fnolist()
-    index = "^NSEI"
+    index = "^NSEI"  # Nifty 50 Index
 
     # Calculate beta for each stock
-    beta_data = []
+    beta_values = []
     for stock in stocks:
-        print(f"Processing stock: {stock}")
-        beta = calculate_beta(stock, index, period="1y")
-        if beta is not None:
-            print(f"{stock}: {beta}")
-            beta_data.append([stock, beta])
-        else:
-            print(f"Skipping {stock} due to calculation error.")
-        time.sleep(1)
+        beta = calculate_beta(stock, index, period="1y")  # Use a valid period
+        print(f"{stock}: {beta}")
+        
+        # Store beta value in list for Google Sheets and CSV
+        beta_values.append([stock, beta])
 
-    # Save beta data to CSV
-    if beta_data:
-        save_to_csv(output_csv, beta_data)
+    # Create a new tab in Google Sheets for Beta values
+    new_worksheet = sheet.add_worksheet(title="Beta Values", rows="1000", cols="2")
+    
+    # Add headers in the new tab
+    new_worksheet.update('A1', 'Stock Symbol')
+    new_worksheet.update('B1', 'Beta Value')
 
-        # Update Google Sheet with the beta data
-        update_google_sheet(worksheet, beta_data)
-    else:
-        print("No beta data to save or upload.")
+    # Write beta values to the new tab in Google Sheets
+    new_worksheet.append_rows(beta_values, value_input_option="RAW")
+
+    # Save beta values to a CSV file
+    with open("beta_values.csv", mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Stock Symbol", "Beta Value"])  # Write headers
+        writer.writerows(beta_values)  # Write the data
+
+    print("Beta values have been written to Google Sheets and saved to 'beta_values.csv'.")
