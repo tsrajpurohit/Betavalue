@@ -31,6 +31,10 @@ def calculate_beta(stock, index, period="1y"):
         # Calculate beta
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
+        if variance == 0:
+            print(f"Variance of {index} is zero, skipping beta calculation for {stock}.")
+            return None
+        
         beta = covariance / variance
         return beta
     except Exception as e:
