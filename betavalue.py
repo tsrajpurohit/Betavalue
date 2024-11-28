@@ -9,6 +9,12 @@ def calculate_beta(stock, index, period="1y"):
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
         index_data = yf.download(index, period=period)['Close']
 
+        # Log data to check what was fetched
+        print(f"Fetched data for {stock}:")
+        print(stock_data.head())
+        print(f"Fetched data for {index}:")
+        print(index_data.head())
+
         # Check if data is empty
         if stock_data.empty or index_data.empty:
             print(f"Data is missing for {stock} or {index}. Skipping.")
@@ -18,7 +24,11 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
-        # Ensure we have enough data
+        # Log return lengths to verify data
+        print(f"Returns for {stock}: {returns_stock.head()}")
+        print(f"Returns for {index}: {returns_index.head()}")
+
+        # Ensure we have enough data (at least 2 data points)
         if len(returns_stock) < 2 or len(returns_index) < 2:
             print(f"Not enough data to calculate beta for {stock}.")
             return None
@@ -32,7 +42,8 @@ def calculate_beta(stock, index, period="1y"):
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
 
-        if variance == 0:  # Avoid divide by zero
+        # Check for division by zero in variance
+        if variance == 0:
             print(f"Variance of {index} is zero for {stock}, skipping.")
             return None
 
