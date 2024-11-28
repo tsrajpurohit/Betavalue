@@ -28,7 +28,8 @@ def authenticate_google_sheets(credentials_json=None):
         return None
 
 # Function to create a new worksheet if it doesn't exist
-def create_or_get_worksheet(sheet, worksheet_name):
+# Function to create a new worksheet if it doesn't exist
+def create_or_get_worksheet(sheet, worksheet_name, num_rows=100, num_cols=2):
     try:
         # Try to get the worksheet by name
         try:
@@ -36,12 +37,15 @@ def create_or_get_worksheet(sheet, worksheet_name):
             print(f"Worksheet '{worksheet_name}' already exists.")
         except gspread.exceptions.WorksheetNotFound:
             # If the worksheet doesn't exist, create it
-            worksheet = sheet.add_worksheet(title=worksheet_name, rows="100", cols="2")
+            worksheet = sheet.add_worksheet(title=worksheet_name, rows=num_rows, cols=num_cols)
             print(f"Worksheet '{worksheet_name}' created.")
+        # Resize the worksheet dynamically based on the data size
+        worksheet.resize(len(beta_data) + 1)  # +1 for header row
         return worksheet
     except Exception as e:
         print(f"Error creating or accessing worksheet: {e}")
         return None
+
 
 # Function to update the Google Sheet with beta values
 def update_google_sheet(worksheet, data):
