@@ -7,20 +7,21 @@ import json
 import time
 import os
 
-# Function to authenticate and get the Google Sheets client
-def authenticate_google_sheets(credentials_json_path):
+def authenticate_google_sheets(credentials_path):
     try:
-        with open(credentials_json_path, "r") as file:
-            credentials_info = json.load(file)
-        credentials = Credentials.from_service_account_info(
-            credentials_info,
+        credentials = Credentials.from_service_account_file(
+            credentials_path,
             scopes=["https://www.googleapis.com/auth/spreadsheets"]
         )
         client = gspread.authorize(credentials)
         return client
     except Exception as e:
         print(f"Error: {e}")
-        return None
+        raise ValueError("Google Sheets authentication failed.")
+
+# Path to your credentials file
+credentials_path = "credentials.json"  # Ensure this file exists in the current working directory
+client = authenticate_google_sheets(credentials_path)
 
 # Function to create or get the worksheet
 def create_or_get_worksheet(sheet, worksheet_name):
