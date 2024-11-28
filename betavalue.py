@@ -1,3 +1,4 @@
+import os
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
@@ -5,11 +6,13 @@ import gspread
 from google.oauth2.service_account import Credentials
 import json
 import time
+import csv
 
 # Function to authenticate and get the Google Sheets client
-def authenticate_google_sheets(credentials_json):
+def authenticate_google_sheets(credentials_path):
     try:
-        credentials_info = json.loads(credentials_json)
+        with open(credentials_path, "r") as file:
+            credentials_info = json.load(file)
         credentials = Credentials.from_service_account_info(
             credentials_info,
             scopes=["https://www.googleapis.com/auth/spreadsheets"]
@@ -47,6 +50,17 @@ def update_google_sheet(worksheet, data):
     except Exception as e:
         print(f"Error updating Google Sheets: {e}")
 
+# Function to save beta data to a CSV file
+def save_to_csv(file_path, data):
+    try:
+        with open(file_path, mode="w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Stock", "Beta"])  # Header row
+            writer.writerows(data)  # Write the data
+        print(f"Beta values saved to CSV at: {file_path}")
+    except Exception as e:
+        print(f"Error saving to CSV: {e}")
+
 # Function to calculate beta
 def calculate_beta(stock, index, period="1y"):
     try:
@@ -73,24 +87,18 @@ def calculate_beta(stock, index, period="1y"):
         return None
 
 if __name__ == "__main__":
-    # Absolute path for credentials JSON file
-     credentials_json = os.getenv("GOOGLE_SHEETS_CREDENTIALS")  # Use an environment variable for credentials
-
-    # Read the credentials JSON from the absolute path
-    try:
-        with open(credentials_path, "r") as file:
-            credentials_json = file.read()
-    except FileNotFoundError:
-        raise ValueError(f"Credentials file not found at {credentials_path}")
-
-    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
-    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
+    # Get the credentials path from an environment variable
+    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS_PATH")
+    if not credentials_path:
+        raise ValueError("Environment variable 'GOOGLE_SHEETS_CREDENTIALS_PATH' is not set.")
 
     # Authenticate with Google Sheets
-    client = authenticate_google_sheets(credentials_json)
+    client = authenticate_google_sheets(credentials_path)
     if not client:
         raise ValueError("Google Sheets authentication failed.")
     
+    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
+    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
     sheet = client.open_by_key(sheet_id)  # Open the sheet by ID
 
     # Name of the worksheet to be created or accessed
@@ -104,6 +112,9 @@ if __name__ == "__main__":
     # Fetch all F&O stock symbols
     stocks = fnolist()
     index = "^NSEI"  # Nifty 50 Index
+
+    # CSV file path
+    csv_file_path = "beta_values.csv"  # Update the path as required
 
     # Calculate beta for each stock and store results in a list
     beta_data = []
@@ -119,8 +130,9 @@ if __name__ == "__main__":
         # Add delay to avoid hitting API rate limits
         time.sleep(1)  # Sleep for 1 second between requests
 
-    # Update Google Sheet with the beta data
+    # Save the beta data to a CSV file
     if beta_data:
+        save_to_csv(csv_file_path, beta_data)
         update_google_sheet(worksheet, beta_data)
     else:
         print("No beta data to upload.")
