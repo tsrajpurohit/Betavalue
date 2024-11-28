@@ -1,532 +1,178 @@
 Stock,Beta
-ADANIENT,"Ticker
-^NSEI   NaN
-dtype: float64"
-EXIDEIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-ABFRL,"Ticker
-^NSEI   NaN
-dtype: float64"
-IEX,"Ticker
-^NSEI   NaN
-dtype: float64"
-LTF,"Ticker
-^NSEI   NaN
-dtype: float64"
-CHAMBLFERT,"Ticker
-^NSEI   NaN
-dtype: float64"
-CONCOR,"Ticker
-^NSEI   NaN
-dtype: float64"
-INDIGO,"Ticker
-^NSEI   NaN
-dtype: float64"
-VEDL,"Ticker
-^NSEI   NaN
-dtype: float64"
-LAURUSLABS,"Ticker
-^NSEI   NaN
-dtype: float64"
-GNFC,"Ticker
-^NSEI   NaN
-dtype: float64"
-BHEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-SBICARD,"Ticker
-^NSEI   NaN
-dtype: float64"
-BIOCON,"Ticker
-^NSEI   NaN
-dtype: float64"
-LICHSGFIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-PFC,"Ticker
-^NSEI   NaN
-dtype: float64"
-JINDALSTEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-CUB,"Ticker
-^NSEI   NaN
-dtype: float64"
-NATIONALUM,"Ticker
-^NSEI   NaN
-dtype: float64"
-AUROPHARMA,"Ticker
-^NSEI   NaN
-dtype: float64"
-COLPAL,"Ticker
-^NSEI   NaN
-dtype: float64"
-GAIL,"Ticker
-^NSEI   NaN
-dtype: float64"
-MARICO,"Ticker
-^NSEI   NaN
-dtype: float64"
-CANBK,"Ticker
-^NSEI   NaN
-dtype: float64"
-SIEMENS,"Ticker
-^NSEI   NaN
-dtype: float64"
-BHARATFORG,"Ticker
-^NSEI   NaN
-dtype: float64"
-PNB,"Ticker
-^NSEI   NaN
-dtype: float64"
-ICICIGI,"Ticker
-^NSEI   NaN
-dtype: float64"
-ASTRAL,"Ticker
-^NSEI   NaN
-dtype: float64"
-POLYCAB,"Ticker
-^NSEI   NaN
-dtype: float64"
-RECLTD,"Ticker
-^NSEI   NaN
-dtype: float64"
-DIXON,"Ticker
-^NSEI   NaN
-dtype: float64"
-IDFCFIRSTB,"Ticker
-^NSEI   NaN
-dtype: float64"
-ABCAPITAL,"Ticker
-^NSEI   NaN
-dtype: float64"
-SBIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-UBL,"Ticker
-^NSEI   NaN
-dtype: float64"
-GRANULES,"Ticker
-^NSEI   NaN
-dtype: float64"
-DEEPAKNTR,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATAMOTORS,"Ticker
-^NSEI   NaN
-dtype: float64"
-BANKBARODA,"Ticker
-^NSEI   NaN
-dtype: float64"
-AMBUJACEM,"Ticker
-^NSEI   NaN
-dtype: float64"
-COALINDIA,"Ticker
-^NSEI   NaN
-dtype: float64"
-ALKEM,"Ticker
-^NSEI   NaN
-dtype: float64"
-UPL,"Ticker
-^NSEI   NaN
-dtype: float64"
-GUJGASLTD,"Ticker
-^NSEI   NaN
-dtype: float64"
-GMRINFRA,"Ticker
-^NSEI   NaN
-dtype: float64"
-HAL,"Ticker
-^NSEI   NaN
-dtype: float64"
-DABUR,"Ticker
-^NSEI   NaN
-dtype: float64"
-PVRINOX,"Ticker
-^NSEI   NaN
-dtype: float64"
-BANDHANBNK,"Ticker
-^NSEI   NaN
-dtype: float64"
-M&MFIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-PETRONET,"Ticker
-^NSEI   NaN
-dtype: float64"
-RAMCOCEM,"Ticker
-^NSEI   NaN
-dtype: float64"
-COROMANDEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATACHEM,"Ticker
-^NSEI   NaN
-dtype: float64"
-SAIL,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDPETRO,"Ticker
-^NSEI   NaN
-dtype: float64"
-BPCL,"Ticker
-^NSEI   NaN
-dtype: float64"
-SHREECEM,"Ticker
-^NSEI   NaN
-dtype: float64"
-BATAINDIA,"Ticker
-^NSEI   NaN
-dtype: float64"
-CROMPTON,"Ticker
-^NSEI   NaN
-dtype: float64"
-BEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-IOC,"Ticker
-^NSEI   NaN
-dtype: float64"
-IGL,"Ticker
-^NSEI   NaN
-dtype: float64"
-MANAPPURAM,"Ticker
-^NSEI   NaN
-dtype: float64"
-NMDC,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDUNILVR,"Ticker
-^NSEI   NaN
-dtype: float64"
-BALKRISIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-OBEROIRLTY,"Ticker
-^NSEI   NaN
-dtype: float64"
-ZYDUSLIFE,"Ticker
-^NSEI   NaN
-dtype: float64"
-ABBOTINDIA,"Ticker
-^NSEI   NaN
-dtype: float64"
-ONGC,"Ticker
-^NSEI   NaN
-dtype: float64"
-GODREJCP,"Ticker
-^NSEI   NaN
-dtype: float64"
-RBLBANK,"Ticker
-^NSEI   NaN
-dtype: float64"
-PAGEIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-SHRIRAMFIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-TRENT,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATASTEEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-HDFCAMC,"Ticker
-^NSEI   NaN
-dtype: float64"
-COFORGE,"Ticker
-^NSEI   NaN
-dtype: float64"
-AARTIIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-BOSCHLTD,"Ticker
-^NSEI   NaN
-dtype: float64"
-AUBANK,"Ticker
-^NSEI   NaN
-dtype: float64"
-DRREDDY,"Ticker
-^NSEI   NaN
-dtype: float64"
-ACC,"Ticker
-^NSEI   NaN
-dtype: float64"
-HAVELLS,"Ticker
-^NSEI   NaN
-dtype: float64"
-PEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-MGL,"Ticker
-^NSEI   NaN
-dtype: float64"
-HDFCBANK,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDCOPPER,"Ticker
-^NSEI   NaN
-dtype: float64"
-JUBLFOOD,"Ticker
-^NSEI   NaN
-dtype: float64"
-MCX,"Ticker
-^NSEI   NaN
-dtype: float64"
-CIPLA,"Ticker
-^NSEI   NaN
-dtype: float64"
-SYNGENE,"Ticker
-^NSEI   NaN
-dtype: float64"
-INDUSINDBK,"Ticker
-^NSEI   NaN
-dtype: float64"
-INDUSTOWER,"Ticker
-^NSEI   NaN
-dtype: float64"
-JSWSTEEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-SUNTV,"Ticker
-^NSEI   NaN
-dtype: float64"
-APOLLOTYRE,"Ticker
-^NSEI   NaN
-dtype: float64"
-LUPIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-LT,"Ticker
-^NSEI   NaN
-dtype: float64"
-ITC,"Ticker
-^NSEI   NaN
-dtype: float64"
-CANFINHOME,"Ticker
-^NSEI   NaN
-dtype: float64"
-METROPOLIS,"Ticker
-^NSEI   NaN
-dtype: float64"
-BERGEPAINT,"Ticker
-^NSEI   NaN
-dtype: float64"
-INDIAMART,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATAPOWER,"Ticker
-^NSEI   NaN
-dtype: float64"
-MRF,"Ticker
-^NSEI   NaN
-dtype: float64"
-TVSMOTOR,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATACOMM,"Ticker
-^NSEI   NaN
-dtype: float64"
-IDEA,"Ticker
-^NSEI   NaN
-dtype: float64"
-IRCTC,"Ticker
-^NSEI   NaN
-dtype: float64"
-DALBHARAT,"Ticker
-^NSEI   NaN
-dtype: float64"
-SUNPHARMA,"Ticker
-^NSEI   NaN
-dtype: float64"
-FEDERALBNK,"Ticker
-^NSEI   NaN
-dtype: float64"
-BAJAJFINSV,"Ticker
-^NSEI   NaN
-dtype: float64"
-BSOFT,"Ticker
-^NSEI   NaN
-dtype: float64"
-MARUTI,"Ticker
-^NSEI   NaN
-dtype: float64"
-HINDALCO,"Ticker
-^NSEI   NaN
-dtype: float64"
-NAVINFLUOR,"Ticker
-^NSEI   NaN
-dtype: float64"
-GODREJPROP,"Ticker
-^NSEI   NaN
-dtype: float64"
-PIIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-TORNTPHARM,"Ticker
-^NSEI   NaN
-dtype: float64"
-BHARTIARTL,"Ticker
-^NSEI   NaN
-dtype: float64"
-ULTRACEMCO,"Ticker
-^NSEI   NaN
-dtype: float64"
-RELIANCE,"Ticker
-^NSEI   NaN
-dtype: float64"
-AXISBANK,"Ticker
-^NSEI   NaN
-dtype: float64"
-PERSISTENT,"Ticker
-^NSEI   NaN
-dtype: float64"
-SRF,"Ticker
-^NSEI   NaN
-dtype: float64"
-NTPC,"Ticker
-^NSEI   NaN
-dtype: float64"
-ICICIBANK,"Ticker
-^NSEI   NaN
-dtype: float64"
-TATACONSUM,"Ticker
-^NSEI   NaN
-dtype: float64"
-BRITANNIA,"Ticker
-^NSEI   NaN
-dtype: float64"
-CHOLAFIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-DIVISLAB,"Ticker
-^NSEI   NaN
-dtype: float64"
-BAJAJ-AUTO,"Ticker
-^NSEI   NaN
-dtype: float64"
-INDHOTEL,"Ticker
-^NSEI   NaN
-dtype: float64"
-NESTLEIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-GLENMARK,"Ticker
-^NSEI   NaN
-dtype: float64"
-ASHOKLEY,"Ticker
-^NSEI   NaN
-dtype: float64"
-VOLTAS,"Ticker
-^NSEI   NaN
-dtype: float64"
-PIDILITIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-KOTAKBANK,"Ticker
-^NSEI   NaN
-dtype: float64"
-ASIANPAINT,"Ticker
-^NSEI   NaN
-dtype: float64"
-MOTHERSON,"Ticker
-^NSEI   NaN
-dtype: float64"
-LALPATHLAB,"Ticker
-^NSEI   NaN
-dtype: float64"
-HEROMOTOCO,"Ticker
-^NSEI   NaN
-dtype: float64"
-GRASIM,"Ticker
-^NSEI   NaN
-dtype: float64"
-POWERGRID,"Ticker
-^NSEI   NaN
-dtype: float64"
-CUMMINSIND,"Ticker
-^NSEI   NaN
-dtype: float64"
-IPCALAB,"Ticker
-^NSEI   NaN
-dtype: float64"
-BAJFINANCE,"Ticker
-^NSEI   NaN
-dtype: float64"
-ATUL,"Ticker
-^NSEI   NaN
-dtype: float64"
-DLF,"Ticker
-^NSEI   NaN
-dtype: float64"
-NAUKRI,"Ticker
-^NSEI   NaN
-dtype: float64"
-ABB,"Ticker
-^NSEI   NaN
-dtype: float64"
-ADANIPORTS,"Ticker
-^NSEI   NaN
-dtype: float64"
-WIPRO,"Ticker
-^NSEI   NaN
-dtype: float64"
-ICICIPRULI,"Ticker
-^NSEI   NaN
-dtype: float64"
-APOLLOHOSP,"Ticker
-^NSEI   NaN
-dtype: float64"
-EICHERMOT,"Ticker
-^NSEI   NaN
-dtype: float64"
-MUTHOOTFIN,"Ticker
-^NSEI   NaN
-dtype: float64"
-TCS,"Ticker
-^NSEI   NaN
-dtype: float64"
-MPHASIS,"Ticker
-^NSEI   NaN
-dtype: float64"
-MFSL,"Ticker
-^NSEI   NaN
-dtype: float64"
-ESCORTS,"Ticker
-^NSEI   NaN
-dtype: float64"
-JKCEMENT,"Ticker
-^NSEI   NaN
-dtype: float64"
-HCLTECH,"Ticker
-^NSEI   NaN
-dtype: float64"
-TITAN,"Ticker
-^NSEI   NaN
-dtype: float64"
-LTIM,"Ticker
-^NSEI   NaN
-dtype: float64"
-TECHM,"Ticker
-^NSEI   NaN
-dtype: float64"
-HDFCLIFE,"Ticker
-^NSEI   NaN
-dtype: float64"
-SBILIFE,"Ticker
-^NSEI   NaN
-dtype: float64"
-OFSS,"Ticker
-^NSEI   NaN
-dtype: float64"
-M&M,"Ticker
-^NSEI   NaN
-dtype: float64"
-INFY,"Ticker
-^NSEI   NaN
-dtype: float64"
-LTTS,"Ticker
-^NSEI   NaN
-dtype: float64"
+ADANIENT,nan
+EXIDEIND,nan
+CHAMBLFERT,nan
+IEX,nan
+LTF,nan
+ABFRL,nan
+INDIGO,nan
+CONCOR,nan
+VEDL,nan
+BHEL,nan
+SBICARD,nan
+GNFC,nan
+LAURUSLABS,nan
+BIOCON,nan
+LICHSGFIN,nan
+GAIL,nan
+BHARATFORG,nan
+AUROPHARMA,nan
+PFC,nan
+MARICO,nan
+JINDALSTEL,nan
+NATIONALUM,nan
+CANBK,nan
+CUB,nan
+POLYCAB,nan
+PNB,nan
+ASTRAL,nan
+ICICIGI,nan
+COLPAL,nan
+RECLTD,nan
+IDFCFIRSTB,nan
+DEEPAKNTR,nan
+DIXON,nan
+TATAMOTORS,nan
+GRANULES,nan
+SBIN,nan
+ABCAPITAL,nan
+GUJGASLTD,nan
+COALINDIA,nan
+ALKEM,nan
+UBL,nan
+SIEMENS,nan
+BANKBARODA,nan
+UPL,nan
+DABUR,nan
+HAL,nan
+GMRINFRA,nan
+AMBUJACEM,nan
+COROMANDEL,nan
+RAMCOCEM,nan
+PETRONET,nan
+SYNGENE,nan
+SAIL,nan
+BANDHANBNK,nan
+HINDPETRO,nan
+OBEROIRLTY,nan
+IGL,nan
+MANAPPURAM,nan
+M&MFIN,nan
+PVRINOX,nan
+SHRIRAMFIN,nan
+CROMPTON,nan
+ONGC,nan
+PEL,nan
+MCX,nan
+TATACHEM,nan
+HINDUNILVR,nan
+BEL,nan
+BATAINDIA,nan
+ZYDUSLIFE,nan
+SHREECEM,nan
+AARTIIND,nan
+TATASTEEL,nan
+NMDC,nan
+IOC,nan
+BPCL,nan
+TRENT,nan
+RBLBANK,nan
+COFORGE,nan
+BALKRISIND,nan
+GODREJCP,nan
+HAVELLS,nan
+ACC,nan
+PAGEIND,nan
+HDFCAMC,nan
+BOSCHLTD,nan
+IDEA,nan
+INDUSINDBK,nan
+APOLLOTYRE,nan
+MGL,nan
+ABBOTINDIA,nan
+AUBANK,nan
+HDFCBANK,nan
+INDUSTOWER,nan
+JSWSTEEL,nan
+DRREDDY,nan
+BERGEPAINT,nan
+LT,nan
+JUBLFOOD,nan
+ITC,nan
+CIPLA,nan
+TATAPOWER,nan
+HINDCOPPER,nan
+CANFINHOME,nan
+MRF,nan
+METROPOLIS,nan
+IRCTC,nan
+LUPIN,nan
+MARUTI,nan
+SUNTV,nan
+INDIAMART,nan
+BSOFT,nan
+TATACOMM,nan
+BAJAJFINSV,nan
+TVSMOTOR,nan
+HINDALCO,nan
+FEDERALBNK,nan
+ICICIPRULI,nan
+TORNTPHARM,nan
+BHARTIARTL,nan
+RELIANCE,nan
+SRF,nan
+PIIND,nan
+DALBHARAT,nan
+SUNPHARMA,nan
+NAVINFLUOR,nan
+ULTRACEMCO,nan
+BAJAJ-AUTO,nan
+AXISBANK,nan
+CHOLAFIN,nan
+NESTLEIND,nan
+ICICIBANK,nan
+DIVISLAB,nan
+TATACONSUM,nan
+NTPC,nan
+PERSISTENT,nan
+BRITANNIA,nan
+ASHOKLEY,nan
+INDHOTEL,nan
+ASIANPAINT,nan
+ADANIPORTS,nan
+GRASIM,nan
+VOLTAS,nan
+POWERGRID,nan
+PIDILITIND,nan
+MOTHERSON,nan
+KOTAKBANK,nan
+ATUL,nan
+HEROMOTOCO,nan
+GLENMARK,nan
+LALPATHLAB,nan
+IPCALAB,nan
+BAJFINANCE,nan
+CUMMINSIND,nan
+NAUKRI,nan
+WIPRO,nan
+DLF,nan
+GODREJPROP,nan
+ABB,nan
+APOLLOHOSP,nan
+EICHERMOT,nan
+MUTHOOTFIN,nan
+TCS,nan
+JKCEMENT,nan
+MPHASIS,nan
+HCLTECH,nan
+ESCORTS,nan
+TITAN,nan
+TECHM,nan
+LTIM,nan
+HDFCLIFE,nan
+M&M,nan
+SBILIFE,nan
+OFSS,nan
+MFSL,nan
+INFY,nan
+LTTS,nan
