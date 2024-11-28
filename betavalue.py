@@ -5,6 +5,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 import json
 import time
+import os
 
 # Function to authenticate and get the Google Sheets client
 def authenticate_google_sheets(credentials_json):
