@@ -61,8 +61,8 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
-        # Check if there are enough valid returns
-        if len(returns_stock) < 2 or len(returns_index) < 2:
+        # Check if returns are valid (not empty)
+        if returns_stock.empty or returns_index.empty:
             print(f"Not enough valid return data for {stock} or {index}. Skipping.")
             return None
 
@@ -83,6 +83,7 @@ def calculate_beta(stock, index, period="1y"):
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
+
 
 if __name__ == "__main__":
     # Fetch Google Sheets credentials from GitHub secrets
