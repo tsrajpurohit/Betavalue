@@ -6,30 +6,37 @@ from nsepython import fnolist
 import gspread
 from google.oauth2.service_account import Credentials
 import time
-import random
 
 # Function to authenticate and get the Google Sheets client
-def authenticate_google_sheets(credentials_json=None):
+def authenticate_google_sheets():
     try:
-        if credentials_json is None:
-            credentials_json = os.getenv("GOOGLE_SHEETS_CREDENTIALS")  # Environment variable holding the JSON string
-            if not credentials_json:
-                raise ValueError("Credentials not found in environment variables.")
+        # Fetch credentials and Sheet ID from environment variables
+        credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string
+        SHEET_ID = os.getenv('GOOGLE_SHEET_ID')  # Sheet ID from environment
+
+        if not credentials_json:
+            raise ValueError("GOOGLE_SHEETS_CREDENTIALS environment variable is not set.")
         
+        if not SHEET_ID:
+            raise ValueError("GOOGLE_SHEET_ID environment variable is not set.")
+
+        # Authenticate using the JSON string from environment
         credentials_info = json.loads(credentials_json)
         credentials = Credentials.from_service_account_info(
             credentials_info,
             scopes=["https://www.googleapis.com/auth/spreadsheets"]
         )
         client = gspread.authorize(credentials)
-        return client
+
+        # Open the Google Sheet by ID
+        sheet = client.open_by_key(SHEET_ID)
+        return sheet
     except Exception as e:
         print(f"Error: {e}")
         return None
 
 # Function to create a new worksheet if it doesn't exist
-# Function to create a new worksheet if it doesn't exist
-def create_or_get_worksheet(sheet, worksheet_name, num_rows=100, num_cols=2):
+def create_or_get_worksheet(sheet, worksheet_name):
     try:
         # Try to get the worksheet by name
         try:
@@ -37,15 +44,12 @@ def create_or_get_worksheet(sheet, worksheet_name, num_rows=100, num_cols=2):
             print(f"Worksheet '{worksheet_name}' already exists.")
         except gspread.exceptions.WorksheetNotFound:
             # If the worksheet doesn't exist, create it
-            worksheet = sheet.add_worksheet(title=worksheet_name, rows=num_rows, cols=num_cols)
+            worksheet = sheet.add_worksheet(title=worksheet_name, rows="100", cols="2")
             print(f"Worksheet '{worksheet_name}' created.")
-        # Resize the worksheet dynamically based on the data size
-        worksheet.resize(len(beta_data) + 1)  # +1 for header row
         return worksheet
     except Exception as e:
         print(f"Error creating or accessing worksheet: {e}")
         return None
-
 
 # Function to update the Google Sheet with beta values
 def update_google_sheet(worksheet, data):
@@ -62,12 +66,8 @@ def update_google_sheet(worksheet, data):
 def calculate_beta(stock, index, period="1y"):
     try:
         # Download stock and index data
-        stock_data = safe_yf_download(f"{stock}.NS", period)
-        index_data = safe_yf_download(index, period)
-
-        if stock_data is None or index_data is None or len(stock_data) < 2 or len(index_data) < 2:
-            print(f"Not enough data for {stock} or {index}. Skipping beta calculation.")
-            return None
+        stock_data = yf.download(f"{stock}.NS", period=period)['Close']
+        index_data = yf.download(index, period=period)['Close']
 
         # Calculate daily returns
         returns_stock = stock_data.pct_change().dropna()
@@ -78,61 +78,21 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = returns_stock[-min_len:]
         returns_index = returns_index[-min_len:]
 
-        # Ensure there are no zero variance issues
-        variance_index = np.var(returns_index)
-        if variance_index == 0:
-            print(f"Variance is zero for {index}. Skipping beta calculation for {stock}.")
-            return None
-
-        # Calculate covariance and beta
+        # Calculate beta
         covariance = np.cov(returns_stock, returns_index)[0][1]
-        beta = covariance / variance_index
-
-        if np.isnan(beta) or np.isinf(beta):
-            print(f"Invalid beta value for {stock}. Skipping.")
-            return None
-
+        variance = np.var(returns_index)
+        beta = covariance / variance
         return beta
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
 
-
-# Function to safely download data with retries
-def safe_yf_download(ticker, period="1y"):
-    tries = 3
-    for i in range(tries):
-        try:
-            return yf.download(f"{ticker}", period=period)['Close']
-        except Exception as e:
-            print(f"Error downloading data for {ticker}, attempt {i + 1}/{tries}: {e}")
-            if i < tries - 1:
-                time.sleep(random.uniform(2, 5))  # Randomized sleep to avoid hitting rate limits
-            else:
-                return None  # Give up after retries
-
-# Main script execution
 if __name__ == "__main__":
-    # Absolute path for credentials JSON file
-    credentials_path = "C:/Users/user/Downloads/Compressed/1.unofficial/Credentials.json"  # Absolute path to the credentials file
-
-    # Read the credentials JSON from the absolute path
-    try:
-        with open(credentials_path, "r") as file:
-            credentials_json = file.read()
-    except FileNotFoundError:
-        raise ValueError(f"Credentials file not found at {credentials_path}")
-
-    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
-    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
-
-    # Authenticate with Google Sheets
-    client = authenticate_google_sheets(credentials_json)
-    if not client:
+    # Authenticate with Google Sheets using the environment variable approach
+    sheet = authenticate_google_sheets()
+    if not sheet:
         raise ValueError("Google Sheets authentication failed.")
     
-    sheet = client.open_by_key(sheet_id)  # Open the sheet by ID
-
     # Name of the worksheet to be created or accessed
     worksheet_name = "Beta Values"  # Change this to whatever name you'd like
 
@@ -159,12 +119,8 @@ if __name__ == "__main__":
         # Add delay to avoid hitting API rate limits
         time.sleep(1)  # Sleep for 1 second between requests
 
-    # Filter out any NaN values before uploading
-    beta_data = [item for item in beta_data if item[1] is not None and not np.isnan(item[1])]
-
     # Update Google Sheet with the beta data
     if beta_data:
         update_google_sheet(worksheet, beta_data)
     else:
         print("No beta data to upload.")
-
