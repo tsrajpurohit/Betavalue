@@ -74,7 +74,7 @@ def calculate_beta(stock, index, period="1y"):
 
 if __name__ == "__main__":
     # Absolute path for credentials JSON file
-    credentials_path = "C:/Users/user/Downloads/Compressed/1.unofficial/Credentials.json"  # Absolute path to the credentials file
+     credentials_json = os.getenv("GOOGLE_SHEETS_CREDENTIALS")  # Use an environment variable for credentials
 
     # Read the credentials JSON from the absolute path
     try:
