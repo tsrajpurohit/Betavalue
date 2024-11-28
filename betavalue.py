@@ -100,6 +100,7 @@ def calculate_beta(stock, index, period="1y", threshold=0.01):
         return None
 
 
+
 if __name__ == "__main__":
     # Fetch Google Sheets credentials from GitHub secrets
     credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')
