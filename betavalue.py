@@ -52,7 +52,7 @@ def calculate_beta(stock, index, period="1y"):
         index_data = yf.download(index, period=period)['Close']
 
         # Check if there is enough data for both stock and index
-        if len(stock_data) < 2 or len(index_data) < 2:
+        if stock_data.empty or index_data.empty or len(stock_data) < 2 or len(index_data) < 2:
             print(f"Not enough data for stock {stock} or index {index}.")
             return None
 
@@ -61,7 +61,7 @@ def calculate_beta(stock, index, period="1y"):
         returns_index = index_data.pct_change().dropna()
 
         # Ensure we have enough data after dropping NaNs
-        if len(returns_stock) < 2 or len(returns_index) < 2:
+        if returns_stock.empty or returns_index.empty or len(returns_stock) < 2 or len(returns_index) < 2:
             print(f"Not enough returns data for stock {stock} or index {index}.")
             return None
 
