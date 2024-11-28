@@ -51,6 +51,11 @@ def calculate_beta(stock, index, period="1y"):
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
         index_data = yf.download(index, period=period)['Close']
 
+        # Check if data is valid
+        if stock_data.empty or index_data.empty:
+            print(f"Error: Data for {stock} or {index} is empty.")
+            return None
+
         # Calculate daily returns
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
