@@ -31,9 +31,9 @@ def calculate_beta(stock, index, period="1y"):
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
         index_data = yf.download(index, period=period)['Close']
 
-        # Check for NaN values in the data
-        if stock_data.isna().all() or index_data.isna().all():
-            print(f"Error: Data for {stock} or {index} is entirely missing.")
+        # Check for NaN values in the stock and index data
+        if stock_data.isna().any() or index_data.isna().any():
+            print(f"Error: Data for {stock} or {index} contains NaN values.")
             return None
 
         # Calculate daily returns
