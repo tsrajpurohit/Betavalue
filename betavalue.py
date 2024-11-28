@@ -113,3 +113,6 @@ if __name__ == "__main__":
         update_google_sheet(worksheet, beta_data)
     else:
         print("No beta data to upload.")
+        print(f"Stock Data:\n{stock_data.head()}")
+        print(f"Index Data:\n{index_data.head()}")
+
