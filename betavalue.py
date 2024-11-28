@@ -8,6 +8,7 @@ import os
 import time
 import csv
 import math
+import pandas as pd
 # Function to create or get the worksheet
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
@@ -50,25 +51,46 @@ def calculate_beta(stock, index, period="1y"):
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
         index_data = yf.download(index, period=period)['Close']
 
+        # Check if there is enough data for both stock and index
+        if len(stock_data) < 2 or len(index_data) < 2:
+            print(f"Not enough data for stock {stock} or index {index}.")
+            return None
+
+        # Calculate returns for stock and index
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
+        # Ensure we have enough data after dropping NaNs
+        if len(returns_stock) < 2 or len(returns_index) < 2:
+            print(f"Not enough returns data for stock {stock} or index {index}.")
+            return None
+
+        # Use the minimum length to avoid mismatched data
         min_len = min(len(returns_stock), len(returns_index))
         returns_stock = returns_stock[-min_len:]
         returns_index = returns_index[-min_len:]
 
+        # Calculate covariance and variance
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
+
+        # Handle zero variance to avoid divide by zero error
+        if variance == 0:
+            print(f"Zero variance for index data: {index}")
+            return None
+
         beta = covariance / variance
 
         # Ensure beta is a valid float
         if math.isinf(beta) or math.isnan(beta):
-            return None  # You can replace None with a default value like 0 if desired
-        return float(beta)  # Ensure beta is a plain float
+            print(f"Invalid beta value for {stock}: {beta}")
+            return None
+
+        return float(beta)  # Convert to a plain float
+
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
-
 
 if __name__ == "__main__":
     # Fetch credentials and Sheet ID from environment variables
