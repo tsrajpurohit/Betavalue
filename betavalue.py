@@ -49,11 +49,25 @@ def calculate_beta(stock, index, period="1y"):
     try:
         # Download stock and index data
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
-        index_data = yf.download(index, period=period)['Close']
-
-        # Check if data is valid
-        if stock_data.empty or index_data.empty:
-            print(f"Error: Data for {stock} or {index} is empty.")
+        
+        # Retry mechanism for index data
+        index_data = None
+        retries = 3
+        while retries > 0:
+            index_data = yf.download(index, period=period)['Close']
+            if not index_data.empty:
+                break
+            retries -= 1
+            print(f"Retrying index download for {index}... {3 - retries} attempt(s) left.")
+            time.sleep(2)  # Sleep for a few seconds before retrying
+        
+        if index_data is None or index_data.empty:
+            print(f"Failed to fetch index data for {index}. Skipping stock: {stock}")
+            return None
+        
+        # Check if stock data is valid
+        if stock_data.empty:
+            print(f"Failed to fetch stock data for {stock}. Skipping stock.")
             return None
 
         # Calculate daily returns
