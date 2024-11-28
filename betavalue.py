@@ -51,7 +51,7 @@ def calculate_beta(stock, index, period="1y"):
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
         index_data = yf.download(index, period=period)['Close']
 
-        # Check if data is empty or not sufficient
+        # Check if data is empty
         if stock_data.empty or index_data.empty:
             print(f"Data is empty for {stock} or {index}. Skipping.")
             return None
@@ -60,18 +60,21 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
-        # Check if returns have enough data points
+        # Handle zeros (no price movement)
+        returns_stock[returns_stock == 0] = np.nan
+        returns_index[returns_index == 0] = np.nan
+
+        # After cleaning, check if we still have enough data points
+        returns_stock = returns_stock.dropna()
+        returns_index = returns_index.dropna()
+
         if len(returns_stock) <= 1 or len(returns_index) <= 1:
             print(f"Not enough return data for {stock} or {index}. Skipping.")
             return None
 
-        # Handle NaN values if present
-        returns_stock = returns_stock[~returns_stock.isna()]
-        returns_index = returns_index[~returns_index.isna()]
-
-        # After cleaning, check if we still have enough data points
-        if len(returns_stock) <= 1 or len(returns_index) <= 1:
-            print(f"After cleaning, not enough return data for {stock} or {index}. Skipping.")
+        # Check for constant data (variance = 0)
+        if returns_stock.var() == 0 or returns_index.var() == 0:
+            print(f"Constant data detected for {stock} or {index}. Skipping.")
             return None
 
         # Align data lengths
@@ -79,7 +82,7 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = returns_stock[-min_len:]
         returns_index = returns_index[-min_len:]
 
-        # Calculate covariance and variance only if we have enough data points
+        # Calculate covariance and variance
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance_index = np.var(returns_index, axis=0)  # Explicit axis=0
 
@@ -95,9 +98,6 @@ def calculate_beta(stock, index, period="1y"):
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
-
-
-
 
 if __name__ == "__main__":
     # Fetch Google Sheets credentials from GitHub secrets
