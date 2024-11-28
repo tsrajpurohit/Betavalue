@@ -1,28 +1,36 @@
+import os
+import json
+import gspread
+from google.oauth2.service_account import Credentials
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
-import gspread
-from google.oauth2.service_account import Credentials
-import os
-import json
 import time
-import csv
 
-# Function to authenticate and get the Google Sheets client
-def authenticate_google_sheets(credentials_json):
-    try:
-        credentials_info = json.loads(credentials_json)
-        credentials = Credentials.from_service_account_info(
-            credentials_info,
-            scopes=["https://www.googleapis.com/auth/spreadsheets"]
-        )
-        client = gspread.authorize(credentials)
-        return client
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
+# Fetch credentials and Sheet ID from environment variables
+credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')  # JSON string from environment
+SHEET_ID = os.getenv('SHEET_ID')  # Google Sheets ID from environment
 
-# Function to create a new worksheet if it doesn't exist
+if not credentials_json:
+    raise ValueError("GOOGLE_SHEETS_CREDENTIALS environment variable is not set.")
+
+if not SHEET_ID:
+    raise ValueError("SHEET_ID environment variable is not set.")
+
+# Authenticate using the JSON string from environment
+credentials_info = json.loads(credentials_json)
+credentials = Credentials.from_service_account_info(
+    credentials_info,
+    scopes=["https://www.googleapis.com/auth/spreadsheets"]
+)
+
+# Authorize and get the client
+client = gspread.authorize(credentials)
+
+# Open the Google Sheet by ID
+sheet = client.open_by_key(SHEET_ID)
+
+# Function to create or get worksheet
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
         # Try to get the worksheet by name
@@ -48,17 +56,6 @@ def update_google_sheet(worksheet, data):
         print("Beta values uploaded to Google Sheets successfully.")
     except Exception as e:
         print(f"Error updating Google Sheets: {e}")
-
-# Function to save beta values to a CSV file
-def save_to_csv(file_path, data):
-    try:
-        with open(file_path, mode="w", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(["Stock", "Beta"])  # Header row
-            writer.writerows(data)
-        print(f"Beta values saved to {file_path}.")
-    except Exception as e:
-        print(f"Error saving to CSV: {e}")
 
 # Function to calculate beta
 def calculate_beta(stock, index, period="1y"):
@@ -86,28 +83,6 @@ def calculate_beta(stock, index, period="1y"):
         return None
 
 if __name__ == "__main__":
-    # Get the credentials path from the environment variable
-    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
-    if not credentials_path:
-        raise ValueError("Environment variable 'GOOGLE_CREDENTIALS_PATH' not set.")
-
-    # Read the credentials JSON from the specified path
-    try:
-        with open(credentials_path, "r") as file:
-            credentials_json = file.read()
-    except FileNotFoundError:
-        raise ValueError(f"Credentials file not found at {credentials_path}")
-
-    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
-    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
-
-    # Authenticate with Google Sheets
-    client = authenticate_google_sheets(credentials_json)
-    if not client:
-        raise ValueError("Google Sheets authentication failed.")
-    
-    sheet = client.open_by_key(sheet_id)  # Open the sheet by ID
-
     # Name of the worksheet to be created or accessed
     worksheet_name = "Beta Values"  # Change this to whatever name you'd like
 
@@ -119,9 +94,6 @@ if __name__ == "__main__":
     # Fetch all F&O stock symbols
     stocks = fnolist()
     index = "^NSEI"  # Nifty 50 Index
-
-    # CSV file path
-    csv_file_path = "beta_values.csv"
 
     # Calculate beta for each stock and store results in a list
     beta_data = []
@@ -140,6 +112,5 @@ if __name__ == "__main__":
     # Update Google Sheet with the beta data
     if beta_data:
         update_google_sheet(worksheet, beta_data)
-        save_to_csv(csv_file_path, beta_data)
     else:
         print("No beta data to upload.")
