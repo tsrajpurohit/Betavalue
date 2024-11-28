@@ -1,15 +1,16 @@
-import os
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
 import gspread
 from google.oauth2.service_account import Credentials
 import json
+import os
 import time
 
 # Function to authenticate and get the Google Sheets client
-def authenticate_google_sheets(credentials_json):
+def authenticate_google_sheets():
     try:
+        credentials_json = os.getenv("GOOGLE_SHEET_CREDENTIALS")  # Get credentials from GitHub Secrets
         credentials_info = json.loads(credentials_json)
         credentials = Credentials.from_service_account_info(
             credentials_info,
@@ -24,12 +25,10 @@ def authenticate_google_sheets(credentials_json):
 # Function to create a new worksheet if it doesn't exist
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
-        # Try to get the worksheet by name
         try:
             worksheet = sheet.worksheet(worksheet_name)
             print(f"Worksheet '{worksheet_name}' already exists.")
         except gspread.exceptions.WorksheetNotFound:
-            # If the worksheet doesn't exist, create it
             worksheet = sheet.add_worksheet(title=worksheet_name, rows="100", cols="2")
             print(f"Worksheet '{worksheet_name}' created.")
         return worksheet
@@ -40,10 +39,9 @@ def create_or_get_worksheet(sheet, worksheet_name):
 # Function to update the Google Sheet with beta values
 def update_google_sheet(worksheet, data):
     try:
-        # Prepare the data in the format [["Stock", "Beta"], ...]
         values = [["Stock", "Beta"]] + data
-        worksheet.clear()  # Clear the existing data
-        worksheet.update("A1", values)  # Update the sheet starting at cell A1
+        worksheet.clear()
+        worksheet.update("A1", values)
         print("Beta values uploaded to Google Sheets successfully.")
     except Exception as e:
         print(f"Error updating Google Sheets: {e}")
@@ -85,56 +83,32 @@ def calculate_beta(stock, index, period="1y"):
 
 
 if __name__ == "__main__":
-    # Fetch credentials path from environment variable
-    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
-    
-    if not credentials_path:
-        raise ValueError("Credentials path not found. Please set the GOOGLE_SHEET_CREDENTIALS_PATH environment variable.")
-    
-    # Read the credentials JSON from the environment variable path
-    try:
-        with open(credentials_path, "r") as file:
-            credentials_json = file.read()
-    except FileNotFoundError:
-        raise ValueError(f"Credentials file not found at {credentials_path}")
-
-    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
-    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
-
-    # Authenticate with Google Sheets
-    client = authenticate_google_sheets(credentials_json)
+    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Google Sheet ID
+    client = authenticate_google_sheets()
     if not client:
         raise ValueError("Google Sheets authentication failed.")
     
-    sheet = client.open_by_key(sheet_id)  # Open the sheet by ID
-
-    # Name of the worksheet to be created or accessed
-    worksheet_name = "Beta Values"  # Change this to whatever name you'd like
-
-    # Create or get the worksheet
+    sheet = client.open_by_key(sheet_id)
+    worksheet_name = "Beta Values"
     worksheet = create_or_get_worksheet(sheet, worksheet_name)
     if not worksheet:
         raise ValueError("Failed to get or create the worksheet.")
 
-    # Fetch all F&O stock symbols
-    stocks = fnolist()
+    stocks = fnolist()  # Fetch F&O stock symbols
     index = "^NSEI"  # Nifty 50 Index
 
-    # Calculate beta for each stock and store results in a list
     beta_data = []
     for stock in stocks:
         print(f"Processing stock: {stock}")
         beta = calculate_beta(stock, index, period="1y")
         if beta is not None:
             print(f"{stock}: {beta}")
-            beta_data.append([stock, beta])  # Store the result in a list
+            beta_data.append([stock, beta])
         else:
             print(f"Skipping {stock} due to calculation error.")
         
-        # Add delay to avoid hitting API rate limits
-        time.sleep(1)  # Sleep for 1 second between requests
+        time.sleep(1)
 
-    # Update Google Sheet with the beta data
     if beta_data:
         update_google_sheet(worksheet, beta_data)
     else:
