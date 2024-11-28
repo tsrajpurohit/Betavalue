@@ -45,10 +45,10 @@ def create_or_get_worksheet(sheet, worksheet_name):
 # Function to update the Google Sheet with beta values
 def update_google_sheet(worksheet, data):
     try:
-        # Prepare the data in the format [["Stock", "Beta"], ...]
-        values = [["Stock", "Beta"]] + data
+        # Ensure data is a list of lists
+        formatted_data = [["Stock", "Beta"]] + [[str(stock), float(beta)] for stock, beta in data]
         worksheet.clear()  # Clear the existing data
-        worksheet.update("A1", values)  # Update the sheet starting at cell A1
+        worksheet.update("A1", formatted_data)  # Update the sheet starting at cell A1
         print("Beta values uploaded to Google Sheets successfully.")
     except Exception as e:
         print(f"Error updating Google Sheets: {e}")
