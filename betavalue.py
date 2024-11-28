@@ -7,7 +7,7 @@ import json
 import os
 import time
 import csv
-
+import math
 # Function to create or get the worksheet
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
@@ -60,6 +60,10 @@ def calculate_beta(stock, index, period="1y"):
         covariance = np.cov(returns_stock, returns_index)[0][1]
         variance = np.var(returns_index)
         beta = covariance / variance
+
+        # Ensure beta is a valid float
+        if math.isinf(beta) or math.isnan(beta):
+            return None  # You can replace None with a default value like 0 if desired
         return float(beta)  # Ensure beta is a plain float
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
