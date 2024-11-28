@@ -109,13 +109,18 @@ def safe_yf_download(ticker, period="1y"):
 
 # Main script execution
 if __name__ == "__main__":
-    # Load credentials from environment variable
-    credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')
-    if not credentials_json:
-        raise ValueError("Credentials not found in environment variables.")
-    
-    # Google Sheets ID (ensure it's correctly set in your environment)
-    sheet_id = os.getenv("SHEET_ID", "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY")  # Default to a hardcoded ID if not set
+    # Absolute path for credentials JSON file
+    credentials_path = "C:/Users/user/Downloads/Compressed/1.unofficial/Credentials.json"  # Absolute path to the credentials file
+
+    # Read the credentials JSON from the absolute path
+    try:
+        with open(credentials_path, "r") as file:
+            credentials_json = file.read()
+    except FileNotFoundError:
+        raise ValueError(f"Credentials file not found at {credentials_path}")
+
+    # Absolute Sheet ID (this should be the actual ID of your Google Sheet)
+    sheet_id = "1IUChF0UFKMqVLxTI69lXBi-g48f-oTYqI1K9miipKgY"  # Hardcoded Sheet ID
 
     # Authenticate with Google Sheets
     client = authenticate_google_sheets(credentials_json)
@@ -150,8 +155,12 @@ if __name__ == "__main__":
         # Add delay to avoid hitting API rate limits
         time.sleep(1)  # Sleep for 1 second between requests
 
+    # Filter out any NaN values before uploading
+    beta_data = [item for item in beta_data if item[1] is not None and not np.isnan(item[1])]
+
     # Update Google Sheet with the beta data
     if beta_data:
         update_google_sheet(worksheet, beta_data)
     else:
         print("No beta data to upload.")
+
