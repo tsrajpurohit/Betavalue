@@ -72,7 +72,7 @@ def calculate_beta(stock, index, period="1y"):
         returns_index = returns_index[-min_len:]
 
         # Calculate variance and covariance
-        variance_index = np.var(returns_index)
+        variance_index = np.var(returns_index, axis=0)  # Explicit axis=0
         if variance_index == 0:
             print(f"Variance of {index} is zero for {stock}, skipping.")
             return None
