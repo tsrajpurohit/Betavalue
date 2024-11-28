@@ -39,8 +39,9 @@ def calculate_beta(stock, index, period="1y"):
         returns_index = returns_index[-min_len:]
 
         # Calculate covariance and variance
-        covariance = np.cov(returns_stock, returns_index)[0][1]
-        variance = np.var(returns_index)
+       covariance = np.cov(returns_stock, returns_index, ddof=0)[0][1]
+       beta = covariance / np.var(returns_index, ddof=0)
+
 
         # Check for division by zero in variance
         if variance == 0:
