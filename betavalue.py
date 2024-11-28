@@ -10,7 +10,7 @@ import time
 # Function to authenticate and get the Google Sheets client
 def authenticate_google_sheets():
     try:
-        credentials_json = os.getenv("GOOGLE_SHEET_CREDENTIALS")  # Get credentials from GitHub Secrets
+        credentials_json = os.getenv("GOOGLE_SHEETS_CREDENTIALS")  # Get credentials from GitHub Secrets
         credentials_info = json.loads(credentials_json)
         credentials = Credentials.from_service_account_info(
             credentials_info,
