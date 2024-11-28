@@ -28,9 +28,9 @@ def calculate_beta(stock, index, period="1y"):
         print(f"Returns for {stock}: {returns_stock.head()}")
         print(f"Returns for {index}: {returns_index.head()}")
 
-        # Ensure we have enough data (at least 2 data points)
-        if len(returns_stock) < 2 or len(returns_index) < 2:
-            print(f"Not enough data to calculate beta for {stock}.")
+        # Ensure data is not empty after dropna()
+        if returns_stock.empty or returns_index.empty:
+            print(f"Not enough valid return data for {stock} or {index}.")
             return None
 
         # Align data lengths
