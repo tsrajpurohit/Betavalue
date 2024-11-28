@@ -73,10 +73,20 @@ def calculate_beta(stock, index, period="1y"):
         returns_stock = stock_data.pct_change().dropna()
         returns_index = index_data.pct_change().dropna()
 
+        # Ensure there is enough data to calculate beta
+        if len(returns_stock) < 2 or len(returns_index) < 2:
+            print(f"Not enough data for {stock} to calculate beta.")
+            return None
+
         # Align data lengths
         min_len = min(len(returns_stock), len(returns_index))
         returns_stock = returns_stock[-min_len:]
         returns_index = returns_index[-min_len:]
+
+        # Check if variance of the index is zero
+        if np.var(returns_index) == 0:
+            print(f"Zero variance in index data for {stock}. Skipping beta calculation.")
+            return None
 
         # Calculate beta
         covariance = np.cov(returns_stock, returns_index)[0][1]
@@ -86,6 +96,7 @@ def calculate_beta(stock, index, period="1y"):
     except Exception as e:
         print(f"Error calculating beta for {stock}: {e}")
         return None
+
 
 if __name__ == "__main__":
     # Authenticate with Google Sheets using the environment variable approach
