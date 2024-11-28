@@ -24,7 +24,8 @@ jobs:
 
       - name: Run script
         env:
-          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}  # Ensure this matches the secret's name in GitHub
+          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }} 
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }} # Ensure this matches the secret's name in GitHub
         run: python betavalue.py  # Ensure the path to the script is correct
 
       - name: Commit and push any modified .csv files
