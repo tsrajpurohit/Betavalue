@@ -1,6 +1,7 @@
 import time
 import yfinance as yf
 import numpy as np
+import pandas as pd
 
 def calculate_beta(stock, index, period="1y"):
     try:
@@ -36,7 +37,7 @@ def calculate_beta(stock, index, period="1y"):
         print(f"Error calculating beta for {stock}: {e}")
         return None
 
-def process_stocks(stocks, index):
+def process_stocks(stocks, index, output_file="beta_values.csv"):
     beta_data = []
     for stock in stocks:
         print(f"Processing stock: {stock}")
@@ -49,4 +50,18 @@ def process_stocks(stocks, index):
         
         # Add delay to avoid hitting API rate limits
         time.sleep(1)  # Sleep for 1 second between requests
-    return beta_data
+
+    # Save results to CSV
+    if beta_data:
+        df = pd.DataFrame(beta_data, columns=["Stock", "Beta"])
+        df.to_csv(output_file, index=False)  # Save as CSV without index
+        print(f"Beta values saved to {output_file}")
+    else:
+        print("No beta data to save.")
+
+# Example Usage
+stocks = ['TATASTEEL', 'INFY', 'SBIN']  # Replace with your list of stocks
+index = "^NSEI"  # Nifty 50 Index
+
+# Process the stocks and save the results in a CSV
+process_stocks(stocks, index, output_file="beta_values.csv")
