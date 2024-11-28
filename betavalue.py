@@ -1,17 +1,11 @@
-import os
 import yfinance as yf
 import numpy as np
 from nsepython import fnolist
-import csv
+import gspread
+from google.oauth2.service_account import Credentials
 import json
 import time
-from google.oauth2.service_account import Credentials
-import gspread
-
-# Fetch the credentials path from environment variable
-credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
-if not credentials_path:
-    raise ValueError("Credentials path environment variable 'GOOGLE_CREDENTIALS_PATH' is not set.")
+import os
 
 # Function to authenticate and get the Google Sheets client
 def authenticate_google_sheets(credentials_json):
@@ -27,24 +21,15 @@ def authenticate_google_sheets(credentials_json):
         print(f"Error: {e}")
         return None
 
-# Function to save the beta values to CSV
-def save_to_csv(file_path, data):
-    try:
-        with open(file_path, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(["Stock", "Beta"])  # Write header
-            writer.writerows(data)  # Write data
-        print(f"Beta values saved to {file_path} successfully.")
-    except Exception as e:
-        print(f"Error saving to CSV: {e}")
-
-# Function to create or get the worksheet in Google Sheets
+# Function to create a new worksheet if it doesn't exist
 def create_or_get_worksheet(sheet, worksheet_name):
     try:
+        # Try to get the worksheet by name
         try:
             worksheet = sheet.worksheet(worksheet_name)
             print(f"Worksheet '{worksheet_name}' already exists.")
         except gspread.exceptions.WorksheetNotFound:
+            # If the worksheet doesn't exist, create it
             worksheet = sheet.add_worksheet(title=worksheet_name, rows="100", cols="2")
             print(f"Worksheet '{worksheet_name}' created.")
         return worksheet
@@ -55,6 +40,7 @@ def create_or_get_worksheet(sheet, worksheet_name):
 # Function to update the Google Sheet with beta values
 def update_google_sheet(worksheet, data):
     try:
+        # Prepare the data in the format [["Stock", "Beta"], ...]
         values = [["Stock", "Beta"]] + data
         worksheet.clear()  # Clear the existing data
         worksheet.update("A1", values)  # Update the sheet starting at cell A1
@@ -65,6 +51,7 @@ def update_google_sheet(worksheet, data):
 # Function to calculate beta
 def calculate_beta(stock, index, period="1y"):
     try:
+        # Download stock and index data
         stock_data = yf.download(f"{stock}.NS", period=period)['Close']
         index_data = yf.download(index, period=period)['Close']
 
@@ -79,7 +66,7 @@ def calculate_beta(stock, index, period="1y"):
 
         # Calculate beta
         covariance = np.cov(returns_stock, returns_index)[0][1]
-        variance = np.var(returns_index)
+        variance = np.var(returns_index) + 1e-10  # Add small constant to avoid division by zero
         beta = covariance / variance
         return beta
     except Exception as e:
@@ -87,6 +74,13 @@ def calculate_beta(stock, index, period="1y"):
         return None
 
 if __name__ == "__main__":
+    # Fetch the credentials path from environment variable
+    credentials_path = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
+    if not credentials_path:
+        raise ValueError("Credentials path environment variable 'GOOGLE_CREDENTIALS_PATH' is not set.")
+    
+    print(f"Credentials file path: {credentials_path}")
+
     # Read the credentials JSON from the absolute path
     try:
         with open(credentials_path, "r") as file:
@@ -113,7 +107,12 @@ if __name__ == "__main__":
         raise ValueError("Failed to get or create the worksheet.")
 
     # Fetch all F&O stock symbols
-    stocks = fnolist()
+    try:
+        stocks = fnolist()
+    except Exception as e:
+        print(f"Error fetching stock list: {e}")
+        stocks = []
+
     index = "^NSEI"  # Nifty 50 Index
 
     # Calculate beta for each stock and store results in a list
@@ -130,9 +129,8 @@ if __name__ == "__main__":
         # Add delay to avoid hitting API rate limits
         time.sleep(1)  # Sleep for 1 second between requests
 
-    # Save beta data to CSV
+    # Update Google Sheet with the beta data
     if beta_data:
-        save_to_csv("beta_values.csv", beta_data)  # Save to CSV file
-        update_google_sheet(worksheet, beta_data)  # Upload to Google Sheets
+        update_google_sheet(worksheet, beta_data)
     else:
-        print("No beta data to save.")
+        print("No beta data to upload.")
